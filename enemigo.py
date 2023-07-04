@@ -2,6 +2,7 @@ import pygame
 from player import *
 from constantes import *
 from auxiliar import Auxiliar
+from objeto import *
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100) -> None:
@@ -38,6 +39,10 @@ class Enemy(pygame.sprite.Sprite):
         self.is_fall = False
         self.is_shoot = False
         self.is_knife = False
+        self.ataque = False
+        self.objetos_lanzados = pygame.sprite.Group()
+        self.attack_cooldown = 2000 
+        self.last_attack_time = pygame.time.get_ticks()
 
         self.tiempo_transcurrido_animation = 0
         self.frame_rate_ms = frame_rate_ms 
@@ -118,6 +123,27 @@ class Enemy(pygame.sprite.Sprite):
             self.animation = self.dead_r
         else:
             self.animation = self.dead_l
+
+    def puede_atacar(self):
+        current_time = pygame.time.get_ticks()
+        elapsed_time = current_time - self.last_attack_time
+        return elapsed_time >= self.attack_cooldown
+
+    def lanzar_objeto(self):
+        objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
+
+        if self.direction == DIRECTION_R:
+            objeto.velocidad_x = objeto.velocidad
+        else:
+            objeto.velocidad_x = -objeto.velocidad
+
+        self.objetos_lanzados.add(objeto)
+
+    def atacar(self):
+        if self.puede_atacar():
+            self.ataque = True
+            self.lanzar_objeto()
+            self.last_attack_time = pygame.time.get_ticks()
 
     def update(self,delta_ms,plataform_list):
         self.do_movement(delta_ms,plataform_list)

@@ -5,7 +5,7 @@ from objeto import *
 from enemigo import *
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,frutas=None,vidas_extra=None, trampas=None, enemigos=None) -> None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,frutas=None,vidas_extra=None, trampas=None, enemigos=None, proyectiles_enemigos=None) -> None:
         '''
         self.walk_r = Auxiliar.getSurfaceFromSpriteSheet("images/caracters/stink/walk.png",15,1,scale=p_scale)[:12]
         '''
@@ -73,6 +73,7 @@ class Player:
         self.restart_game = True
         self.mask = pygame.mask.from_surface(self.image)
         self.enemigos=enemigos
+        self.proyectiles_enemigos=proyectiles_enemigos
 
     def walk(self,direction):
         if self.is_dead:
@@ -252,6 +253,11 @@ class Player:
         if self.frame == len(self.animation) - 1:
             self.is_death_animation_finished = True
             self.game_over = True
+    
+    def recibir_ataque(self):
+        self.vida -= 1
+        if self.vida <= 0:
+            self.game_over = True
 
     def update(self, delta_ms, plataform_list):
             if not self.game_over:
@@ -283,6 +289,10 @@ class Player:
                             self.score+=3
                             self.attack_launched = False
                             objeto.kill()
+
+                colisiones_proyectiles = pygame.sprite.spritecollide(self, self.proyectiles_enemigos, True)
+                if colisiones_proyectiles:
+                    self.recibir_ataque()
                 
                 self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
                 self.mask = pygame.mask.from_surface(self.image)

@@ -14,6 +14,7 @@ vidas_extra=pygame.sprite.Group()  # Crear el grupo de sprites para las frutas
 
 trampa=pygame.sprite.Group()
 enemigos=pygame.sprite.Group()
+proyectiles_enemigos=pygame.sprite.Group()
 
 pygame.init()
 screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
@@ -24,7 +25,7 @@ score_timer = 0
 imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_background.jpg").convert()
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
-player_1 = Player(x=0, y=400, speed_walk=6, speed_run=12, gravity=14, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=140, p_scale=0.2, interval_time_jump=300, frutas=frutas, vidas_extra=vidas_extra, trampas=trampa, enemigos=enemigos)
+player_1 = Player(x=0, y=400, speed_walk=6, speed_run=12, gravity=14, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=140, p_scale=0.2, interval_time_jump=300, frutas=frutas, vidas_extra=vidas_extra, trampas=trampa, enemigos=enemigos, proyectiles_enemigos=proyectiles_enemigos)
 
 enemy_list=[]
 enemy_list.append(Enemy(x=500, y=400, speed_walk=6, speed_run=8, gravity=8, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
@@ -85,6 +86,9 @@ while True:
     for enemy in enemy_list:
         enemy.update(delta_ms, plataform_list)
         enemy.draw(screen)
+
+        if enemy.puede_atacar():
+            enemy.atacar()
 
     for obj in frutas:
         obj.update(delta_ms)
