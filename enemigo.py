@@ -1,11 +1,11 @@
 import pygame
 from player import *
+from objeto import *
 from constantes import *
 from auxiliar import Auxiliar
-from objeto import *
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100) -> None:
+    def __init__(self, x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100) -> None:
         super().__init__()
         self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/blue/run/r_{0}.png",0,6,scale=p_scale)
         self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/blue/run/r_{0}.png",0,6,flip=True,scale=p_scale)
@@ -129,20 +129,20 @@ class Enemy(pygame.sprite.Sprite):
         elapsed_time = current_time - self.last_attack_time
         return elapsed_time >= self.attack_cooldown
 
-    def lanzar_objeto(self):
-        objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
+    # def lanzar_objeto(self):
+    #     objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
 
-        if self.direction == DIRECTION_R:
-            objeto.velocidad_x = objeto.velocidad
-        else:
-            objeto.velocidad_x = -objeto.velocidad
+    #     if self.direction == DIRECTION_R:
+    #         objeto.velocidad_x = objeto.velocidad
+    #     else:
+    #         objeto.velocidad_x = -objeto.velocidad
 
-        self.objetos_lanzados.add(objeto)
+    #     self.objetos_lanzados.add(objeto)
 
     def atacar(self):
         if self.puede_atacar():
             self.ataque = True
-            self.lanzar_objeto()
+            # self.lanzar_objeto()
             self.last_attack_time = pygame.time.get_ticks()
 
     def update(self,delta_ms,plataform_list):

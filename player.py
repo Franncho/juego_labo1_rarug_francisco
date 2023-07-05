@@ -3,9 +3,10 @@ from constantes import *
 from auxiliar import Auxiliar
 from objeto import *
 from enemigo import *
+from enemigo2 import *
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,frutas=None,vidas_extra=None, trampas=None, enemigos=None, proyectiles_enemigos=None) -> None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,frutas=None,vidas_extra=None, trampas=None, enemigos=None, enemigo_2=None, proyectiles_enemigos=None) -> None:
         '''
         self.walk_r = Auxiliar.getSurfaceFromSpriteSheet("images/caracters/stink/walk.png",15,1,scale=p_scale)[:12]
         '''
@@ -73,6 +74,7 @@ class Player:
         self.restart_game = True
         self.mask = pygame.mask.from_surface(self.image)
         self.enemigos=enemigos
+        self.enemigo_2=enemigo_2
         self.proyectiles_enemigos=proyectiles_enemigos
 
     def walk(self,direction):
@@ -217,16 +219,18 @@ class Player:
 
 
 
-    def draw_hearts(self, screen):
-        heart_image = pygame.image.load("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/Object/hearts/1.png")  # Ruta a la imagen del corazón
-        heart_width = heart_image.get_width()
-        heart_height = heart_image.get_height()
+    def draw_hearts(self, screen, scale):
+        heart_image = pygame.image.load("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/Object/hearts/heart.png")
+        heart_width = heart_image.get_width() * scale
+        heart_height = heart_image.get_height() * scale
         spacing = 10  # Espacio entre los corazones
         x = 10  # Posición x inicial
         y = 10  # Posición y
         for _ in range(self.lives):
-            screen.blit(heart_image, (x, y))
+            heart_scaled = pygame.transform.scale(heart_image, (heart_width, heart_height))
+            screen.blit(heart_scaled, (x, y))
             x += heart_width + spacing
+
 
     def check_collision(self):
         for trampa in self.trampas:
@@ -289,6 +293,15 @@ class Player:
                             self.score+=3
                             self.attack_launched = False
                             objeto.kill()
+                
+                for objeto in self.objetos_lanzados:
+                    colisiones_enemigos_2 = pygame.sprite.spritecollide(objeto, self.enemigo_2, False)
+                    if colisiones_enemigos_2:
+                        for enemigos in colisiones_enemigos_2:
+                            enemigos.receive_shoot()
+                            self.score+=3
+                            self.attack_launched = False
+                            objeto.kill()
 
                 colisiones_proyectiles = pygame.sprite.spritecollide(self, self.proyectiles_enemigos, True)
                 if colisiones_proyectiles:
@@ -307,7 +320,7 @@ class Player:
             self.image = self.animation[self.frame]
             screen.blit(self.image,self.rect)
             
-            self.draw_hearts(screen)
+            self.draw_hearts(screen, 0.2)
 
         if self.game_over:
             font=pygame.font.SysFont("serif", 25)
