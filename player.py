@@ -6,29 +6,30 @@ from enemigo import *
 from enemigo2 import *
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,frutas=None,vidas_extra=None, trampas=None, enemigos=None, enemigo_2=None, proyectiles_enemigos=None) -> None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, trampas=None, enemigos=None, enemigo_2=None, proyectiles_enemigos=None) -> None:
         '''
         self.walk_r = Auxiliar.getSurfaceFromSpriteSheet("images/caracters/stink/walk.png",15,1,scale=p_scale)[:12]
         '''
 
-        self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Idle ({0}).png",1,10,flip=False,scale=p_scale)
-        self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Idle ({0}).png",1,10,flip=True,scale=p_scale)
-        self.jump_r = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Jump ({0}).png",1,10,flip=False,scale=p_scale)
-        self.jump_l = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Jump ({0}).png",1,10,flip=True,scale=p_scale)
-        self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Run ({0}).png",1,8,flip=False,scale=p_scale)
-        self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Run ({0}).png",1,8,flip=True,scale=p_scale)
-        self.shoot_r = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Shoot ({0}).png",1,4,flip=False,scale=p_scale,repeat_frame=2)
-        self.shoot_l = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Shoot ({0}).png",1,4,flip=True,scale=p_scale,repeat_frame=2)
-        self.knife_r = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Melee ({0}).png",1,7,flip=False,scale=p_scale,repeat_frame=1)
-        self.knife_l = Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Melee ({0}).png",1,8,flip=True,scale=p_scale,repeat_frame=1)
-        self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Dead ({0}).png", 1,10,flip=False,scale=p_scale,repeat_frame=1)
-        self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/caracters/players/robot/Dead ({0}).png", 1,10,flip=True,scale=p_scale,repeat_frame=1)
+        self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=False,scale=p_scale)
+        self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=True,scale=p_scale)
+        self.jump_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Jump ({0}).png",1,10,flip=True,scale=p_scale)
+        self.jump_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Jump ({0}).png",1,10,flip=False,scale=p_scale)
+        self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Run ({0}).png",1,8,flip=False,scale=p_scale)
+        self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Run ({0}).png",1,8,flip=True,scale=p_scale)
+        self.shoot_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Shoot ({0}).png",1,4,flip=False,scale=p_scale,repeat_frame=2)
+        self.shoot_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Shoot ({0}).png",1,4,flip=True,scale=p_scale,repeat_frame=2)
+        self.knife_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Melee ({0}).png",1,7,flip=False,scale=p_scale,repeat_frame=1)
+        self.knife_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Melee ({0}).png",1,8,flip=True,scale=p_scale,repeat_frame=1)
+        self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Dead ({0}).png", 1,10,flip=False,scale=p_scale,repeat_frame=1)
+        self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Dead ({0}).png", 1,10,flip=True,scale=p_scale,repeat_frame=1)
         self.is_dead = False
 
         self.frame = 0
         self.lives = 3
-        self.frutas = frutas
-        self.vidas_extra=vidas_extra
+        self.estrella = estrella
+        # self.vidas_extra=vidas_extra
+        self.poderes=poderes
         self.trampas=trampas
         self.score = 0
         self.move_x = 0
@@ -76,6 +77,8 @@ class Player:
         self.enemigos=enemigos
         self.enemigo_2=enemigo_2
         self.proyectiles_enemigos=proyectiles_enemigos
+
+        
 
     def walk(self,direction):
         if self.is_dead:
@@ -220,16 +223,31 @@ class Player:
 
 
     def draw_hearts(self, screen, scale):
-        heart_image = pygame.image.load("C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/Juego/images/Object/hearts/heart.png")
+        heart_image = pygame.image.load("images/Object/hearts/heart.png")
         heart_width = heart_image.get_width() * scale
         heart_height = heart_image.get_height() * scale
         spacing = 10  # Espacio entre los corazones
-        x = 10  # Posición x inicial
+        x = 70  # Posición x inicial
         y = 10  # Posición y
         for _ in range(self.lives):
             heart_scaled = pygame.transform.scale(heart_image, (heart_width, heart_height))
             screen.blit(heart_scaled, (x, y))
             x += heart_width + spacing
+
+    
+    def draw_star(self, screen, scale):
+        star_image = pygame.image.load("images/Object/coin/star.png")
+        star_width = star_image.get_width() * scale
+        star_height = star_image.get_height() * scale
+        spacing = 10  # Espacio entre las estrellas
+        x = 360  # Posición x inicial
+        y = 7  # Posición y
+        for _ in self.estrella:
+            star_scaled = pygame.transform.scale(star_image, (star_width, star_height))
+            screen.blit(star_scaled, (x, y))
+            x += star_width + spacing
+
+
 
 
     def check_collision(self):
@@ -273,14 +291,15 @@ class Player:
                 if not self.heat_state:
                     self.delta = delta_ms
 
-                colisiones_coin = pygame.sprite.spritecollide(self, self.frutas, True)
+                colisiones_coin = pygame.sprite.spritecollide(self, self.estrella, True)
                 if colisiones_coin:
                     self.score += 10
                     print(self.score)
 
-                colisiones_vidas_extra = pygame.sprite.spritecollide(self, self.vidas_extra, True)
-                if colisiones_vidas_extra:
-                    self.lives += 1
+                colisiones_poderes = pygame.sprite.spritecollide(self, self.poderes, True)
+                if colisiones_poderes:
+                    self.jump_height += 100
+                    print(self.jump_height)
 
                 if self.lives==0:
                     self.death_animation() 
@@ -320,7 +339,11 @@ class Player:
             self.image = self.animation[self.frame]
             screen.blit(self.image,self.rect)
             
-            self.draw_hearts(screen, 0.2)
+            self.draw_hearts(screen, 0.1)
+
+            colisiones_star = pygame.sprite.spritecollide(self, self.estrella, True)
+            if colisiones_star:
+                self.estrella+=1
 
         if self.game_over:
             font=pygame.font.SysFont("serif", 25)
@@ -363,8 +386,12 @@ class Player:
         if(keys[pygame.K_x] and not keys[pygame.K_z]):
             self.knife()
         
-        if self.game_over:
+        if self.game_over and self.is_death_animation_finished==True:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.restart_game = False
                     self.game_over = False
+                    self.lives = 3
+                    self.score=0
+                    self.rect.x = 0
+                    self.rect.y = 400
