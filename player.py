@@ -2,6 +2,8 @@ import pygame
 from constantes import *
 from auxiliar import Auxiliar
 from objeto import *
+from trampas import *
+from poderes import *
 from enemigo import *
 from enemigo2 import *
 
@@ -200,15 +202,18 @@ class Player:
                     break       
         return retorno                 
 
-    def do_animation(self,delta_ms):
+    def do_animation(self,delta_ms, player, index):
         self.tiempo_transcurrido_animation += delta_ms
         if(self.tiempo_transcurrido_animation >= self.frame_rate_ms):
             self.tiempo_transcurrido_animation = 0
             if(self.frame < len(self.animation) - 1):
                 self.frame += 1 
                 #print(self.frame)
-            else: 
-                self.frame = 0
+            elif self.frame >= len(self.animation) - 1 :
+                if self.animation==self.dead_r or self.animation==self.dead_l:
+                    del player[index]
+                else:
+                    self.frame=0
 
     def lanzar_objeto(self):
         objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
@@ -279,11 +284,11 @@ class Player:
         if self.vida <= 0:
             self.game_over = True
 
-    def update(self, delta_ms, plataform_list):
+    def update(self, delta_ms, plataform_list, player, index):
             if not self.game_over:
 
                 self.do_movement(delta_ms, plataform_list)
-                self.do_animation(delta_ms)
+                self.do_animation(delta_ms, player, index)
                 self.check_collision()
 
                 if not self.heat_state:
@@ -344,12 +349,12 @@ class Player:
                 self.draw_star(screen, 0.2)
                 self.estrella+=1
 
-        if self.game_over:
-            font=pygame.font.SysFont("serif", 25)
-            text=font.render("Game Over", "Hace click para continuar", True, C_BLUE)
-            center_x=(ANCHO_VENTANA//2) - (text.get_width()//2)
-            center_y=(ALTO_VENTANA//2) - (text.get_height()//2)
-            screen.blit(text, [center_x, center_y])
+        # if self.game_over:
+        #     font=pygame.font.SysFont("serif", 25)
+        #     text=font.render("Game Over", "Hace click para continuar", True, C_BLUE)
+        #     center_x=(ANCHO_VENTANA//2) - (text.get_width()//2)
+        #     center_y=(ALTO_VENTANA//2) - (text.get_height()//2)
+        #     screen.blit(text, [center_x, center_y])
 
     def events(self,delta_ms,keys):
         self.tiempo_transcurrido += delta_ms

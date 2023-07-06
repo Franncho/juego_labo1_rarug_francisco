@@ -6,6 +6,8 @@ from player import Player
 from enemigo import Enemy
 from plataforma import Plataform
 from objeto import *
+from trampas import *
+from poderes import *
 from enemigo2 import *
 
 flags = DOUBLEBUF
@@ -107,7 +109,7 @@ star_list = [(115, 360), (300, 170), (1115, 60)]
 for posicion in star_list:
     x = posicion[0]
     y = posicion[1]
-    star= Fruit(x, y, "images/Object/coin/star.png", scale=0.3)
+    star= Poderes(x, y, "images/Object/coin/star.png", scale=0.3)
     estrella.add(star)
 
 # vidas_extra_posiciones = [(1000, 90), (300, 470), (900, 500)]  
@@ -122,7 +124,7 @@ poderes = [(250, 170)]
 for posicion in poderes:
     x = posicion[0]
     y = posicion[1]
-    poderes = Fruit(x, y, "images/Object/coin/papas.png", scale=2)
+    poderes = Poderes(x, y, "images/Object/coin/papas.png", scale=2)
     poder.add(poderes)
 
 
@@ -172,7 +174,7 @@ while True:
         score_timer = 0  
 
     player_1.events(delta_ms, keys)
-    player_1.update(delta_ms, plataform_list)
+    player_1.update(delta_ms, plataform_list, player_1, index)
     player_1.draw(screen)
     enemy_2.draw(screen)
     enemy_2.update(delta_ms)

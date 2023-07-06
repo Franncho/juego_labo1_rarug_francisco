@@ -131,20 +131,20 @@ class Enemy(pygame.sprite.Sprite):
         elapsed_time = current_time - self.last_attack_time
         return elapsed_time >= self.attack_cooldown
 
-    # def lanzar_objeto(self):
-    #     objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
+    def lanzar_disparo(self):
+         tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
 
-    #     if self.direction == DIRECTION_R:
-    #         objeto.velocidad_x = objeto.velocidad
-    #     else:
-    #         objeto.velocidad_x = -objeto.velocidad
+         if self.direction == DIRECTION_R:
+             tiro.velocidad_x = tiro.velocidad
+         else:
+             tiro.velocidad_x = -tiro.velocidad
 
-    #     self.objetos_lanzados.add(objeto)
+         self.objetos_lanzados.add(tiro)
 
     def atacar(self):
         if self.puede_atacar():
             self.ataque = True
-            # lanzar_objeto()
+            self.lanzar_disparo()
             self.last_attack_time = pygame.time.get_ticks()
 
     def update(self,delta_ms,plataform_list, enemy_list, index):
