@@ -3,9 +3,9 @@ from constantes import *
 from auxiliar import Auxiliar
 
 
-class Plataform:
+class Plataform(pygame.sprite.Sprite):
     def __init__(self, x, y,width, height,  type=1):
-
+        super().__init__()
         self.image_list= Auxiliar.getSurfaceFromSeparateFiles("images/tileset/forest/Tiles/{0}.png",1,14,flip=False,w=width,h=height)
         self.image = self.image_list[type]
         self.rect = self.image.get_rect()

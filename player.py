@@ -8,7 +8,7 @@ from enemigo import *
 from enemigo2 import *
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, trampas=None, enemigos=None, enemigo_2=None, proyectiles_enemigos=None) -> None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, trampas=None, enemigos=None, enemigo_2=None, proyectiles_enemigos=None, plataform=None) -> None:
         '''
         self.walk_r = Auxiliar.getSurfaceFromSpriteSheet("images/caracters/stink/walk.png",15,1,scale=p_scale)[:12]
         '''
@@ -79,6 +79,7 @@ class Player:
         self.enemigos=enemigos
         self.enemigo_2=enemigo_2
         self.proyectiles_enemigos=proyectiles_enemigos
+        self.plataform=plataform
 
         
 
@@ -330,6 +331,7 @@ class Player:
                 colisiones_proyectiles = pygame.sprite.spritecollide(self, self.proyectiles_enemigos, True)
                 if colisiones_proyectiles:
                     self.recibir_ataque()
+
                 
                 self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
                 self.mask = pygame.mask.from_surface(self.image)

@@ -21,8 +21,11 @@ trampa=pygame.sprite.Group()
 enemigos=pygame.sprite.Group()
 proyectiles_enemigos=pygame.sprite.Group()
 enemigo2=pygame.sprite.Group()
+plataform=pygame.sprite.Group()
 
 pygame.init()
+
+
 screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
 clock = pygame.time.Clock()
 
@@ -36,7 +39,7 @@ pygame.display.set_icon(icono)
 imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_background.jpg").convert()
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
-player_1 = Player(x=0, y=500, speed_walk=6, speed_run=12, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, proyectiles_enemigos=proyectiles_enemigos)
+player_1 = Player(x=0, y=500, speed_walk=6, speed_run=12, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, proyectiles_enemigos=proyectiles_enemigos, plataform=plataform)
 
 enemy_list=[]
 enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
@@ -100,6 +103,7 @@ plataform_list.append(Plataform(x=1150, y=120, width=50, height=50, type=13))
 plataform_list.append(Plataform(x=1050, y=120, width=50, height=50, type=13))
 plataform_list.append(Plataform(x=1100, y=120, width=50, height=50, type=13))
 
+plataform.add(plataform_list)
 
 trampas = Trampa(500, 380, "images/Object/trampas/Spike.png", 0.2)
 trampa.add(trampas)
@@ -129,6 +133,8 @@ for posicion in poderes:
 
 
 while True:
+    screen.fill(C_BLUE)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -137,6 +143,7 @@ while True:
     keys = pygame.key.get_pressed()
     delta_ms = clock.tick(FPS)
     score_timer += delta_ms
+    
     
     screen.blit(imagen_fondo, (0, 0))
 
@@ -185,6 +192,7 @@ while True:
 
                     enemy_2=Enemy_2(x=900, y=175, p_scale=1)
                     enemigo2.add(enemy_2)
+
 
     player_1.events(delta_ms, keys)
     player_1.update(delta_ms, plataform_list, player_1, index)
