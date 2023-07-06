@@ -170,6 +170,7 @@ class Player:
         self.ground_collition_rect.y += delta_y
 
     def do_movement(self,delta_ms,plataform_list):
+        
         if self.is_dead:
             return
         self.tiempo_transcurrido_move += delta_ms
@@ -305,7 +306,8 @@ class Player:
                     print(self.jump_height)
 
                 if self.lives==0:
-                    self.death_animation() 
+                    self.death_animation()
+                    
 
                 for objeto in self.objetos_lanzados:
                     colisiones_enemigos = pygame.sprite.spritecollide(objeto, self.enemigos, False)
@@ -349,12 +351,18 @@ class Player:
                 self.draw_star(screen, 0.2)
                 self.estrella+=1
 
-        # if self.game_over:
-        #     font=pygame.font.SysFont("serif", 25)
-        #     text=font.render("Game Over", "Hace click para continuar", True, C_BLUE)
-        #     center_x=(ANCHO_VENTANA//2) - (text.get_width()//2)
-        #     center_y=(ALTO_VENTANA//2) - (text.get_height()//2)
-        #     screen.blit(text, [center_x, center_y])
+        if self.game_over:
+            img=pygame.image.load("images/tileset/forest/Tiles/gameOver.png")
+            
+            font=pygame.font.SysFont("arialblack", 25)
+            text=font.render("Hace CLICK para continuar", True, C_BLACK)
+            center_x=(ANCHO_VENTANA//2) - (img.get_width()//2)
+            center_y=(ALTO_VENTANA//2) - (img.get_height()//2)
+            screen.blit(img, [center_x, center_y])
+
+            center_x=(ANCHO_VENTANA//2) - (text.get_width()//2)
+            center_y=(ALTO_VENTANA-290) - (text.get_height()//2)
+            screen.blit(text, [center_x, center_y])
 
     def events(self,delta_ms,keys):
         self.tiempo_transcurrido += delta_ms
@@ -390,12 +398,5 @@ class Player:
         if(keys[pygame.K_x] and not keys[pygame.K_z]):
             self.knife()
         
-        # if self.game_over and self.is_death_animation_finished==True:
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.MOUSEBUTTONDOWN:
-        #             self.restart_game = False
-        #             self.game_over = False
-        #             self.lives = 3
-        #             self.score=0
-        #             self.rect.x = 0
-        #             self.rect.y = 400
+         
+                    

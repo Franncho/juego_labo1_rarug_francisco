@@ -36,7 +36,7 @@ pygame.display.set_icon(icono)
 imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_background.jpg").convert()
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
-player_1 = Player(x=0, y=300, speed_walk=6, speed_run=12, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, proyectiles_enemigos=proyectiles_enemigos)
+player_1 = Player(x=0, y=500, speed_walk=6, speed_run=12, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, proyectiles_enemigos=proyectiles_enemigos)
 
 enemy_list=[]
 enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
@@ -168,10 +168,23 @@ while True:
         rotated_image = pygame.transform.rotate(i.image, i.angle)
         rotated_rect = rotated_image.get_rect(center=i.rect.center)
         screen.blit(rotated_image, rotated_rect)
+    
+    if player_1.lives > 0:
+        if score_timer >= 2000: 
+            player_1.score += 2
+            score_timer = 0  
+    
+    if player_1.game_over and player_1.is_death_animation_finished==True:
+             for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    player_1 = Player(x=0, y=500, speed_walk=6, speed_run=12, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, proyectiles_enemigos=proyectiles_enemigos)
+                    enemy_list=[]
+                    enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
+                    enemy_list.append(Enemy(x=950, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
+                    enemigos.add(enemy_list)
 
-    if score_timer >= 2000: 
-        player_1.score += 2
-        score_timer = 0  
+                    enemy_2=Enemy_2(x=900, y=175, p_scale=1)
+                    enemigo2.add(enemy_2)
 
     player_1.events(delta_ms, keys)
     player_1.update(delta_ms, plataform_list, player_1, index)

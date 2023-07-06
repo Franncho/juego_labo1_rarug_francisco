@@ -143,7 +143,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def atacar(self):
         if self.puede_atacar():
-            self.ataque = True
+            
             self.lanzar_disparo()
             self.last_attack_time = pygame.time.get_ticks()
 
