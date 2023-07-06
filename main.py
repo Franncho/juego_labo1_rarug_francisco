@@ -10,6 +10,7 @@ from enemigo2 import *
 
 flags = DOUBLEBUF
 
+contador=0
 estrella = pygame.sprite.Group()
 # vidas_extra=pygame.sprite.Group()  # Crear el grupo de sprites para las estrella
 poder = pygame.sprite.Group()
@@ -33,7 +34,7 @@ pygame.display.set_icon(icono)
 imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_background.jpg").convert()
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
-player_1 = Player(x=0, y=400, speed_walk=6, speed_run=12, gravity=14, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, proyectiles_enemigos=proyectiles_enemigos)
+player_1 = Player(x=0, y=300, speed_walk=6, speed_run=12, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, proyectiles_enemigos=proyectiles_enemigos)
 
 enemy_list=[]
 enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
@@ -48,7 +49,7 @@ plataform_list = []
 plataform_list.append(Plataform(x=1100, y=500, width=50, height=50, type=13))
 
 
-plataform_list.append(Plataform(x=450, y=430, width=50, height=50, type=0))
+plataform_list.append(Plataform(x=450, y=430, width=50, height=50, type=1))
 plataform_list.append(Plataform(x=500, y=430, width=50, height=50, type=1))
 plataform_list.append(Plataform(x=550, y=430, width=50, height=50, type=1))
 
@@ -140,8 +141,8 @@ while True:
     for plataforma in plataform_list:
         plataforma.draw(screen)
 
-    for enemy in enemy_list:
-        enemy.update(delta_ms, plataform_list)
+    for index, enemy in enumerate(enemy_list):
+        enemy.update(delta_ms, plataform_list, enemy_list, index)
         enemy.draw(screen)
 
         if enemy.puede_atacar():
@@ -179,7 +180,7 @@ while True:
     player_1.objetos_lanzados.update()
     player_1.objetos_lanzados.draw(screen)
 
-    player_1.draw_star(screen, 0.2)
+    
 
     trampa.draw(screen)
 

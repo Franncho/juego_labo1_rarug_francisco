@@ -105,24 +105,26 @@ class Enemy(pygame.sprite.Sprite):
         return retorno          
 
 
-    def do_animation(self,delta_ms):
+    def do_animation(self,delta_ms, enemy_list, index):
         self.tiempo_transcurrido_animation += delta_ms
         if(self.tiempo_transcurrido_animation >= self.frame_rate_ms):
             self.tiempo_transcurrido_animation = 0
             if(self.frame < len(self.animation) - 1):
                 self.frame += 1 
                 #print(self.frame)
-            else: 
-                self.frame = 0
+            elif self.frame >= len(self.animation) - 1 :
+                if self.animation==self.dead_r or self.animation==self.dead_l:
+                    del enemy_list[index]
+                else:
+                    self.frame=0
 
     def death_animation(self):
-        if self.animation != self.dead_r and self.animation != self.dead_l:
-            self.frame = 0
         self.is_dead = True
         if self.direction == DIRECTION_R:
             self.animation = self.dead_r
         else:
             self.animation = self.dead_l
+        
 
     def puede_atacar(self):
         current_time = pygame.time.get_ticks()
@@ -142,12 +144,12 @@ class Enemy(pygame.sprite.Sprite):
     def atacar(self):
         if self.puede_atacar():
             self.ataque = True
-            # self.lanzar_objeto()
+            # lanzar_objeto()
             self.last_attack_time = pygame.time.get_ticks()
 
-    def update(self,delta_ms,plataform_list):
+    def update(self,delta_ms,plataform_list, enemy_list, index):
         self.do_movement(delta_ms,plataform_list)
-        self.do_animation(delta_ms) 
+        self.do_animation(delta_ms, enemy_list, index) 
 
     def draw(self,screen):
         if self.is_visible and not self.death_animation_finished:
@@ -158,13 +160,12 @@ class Enemy(pygame.sprite.Sprite):
             self.image = self.animation[self.frame]
             screen.blit(self.image,self.rect)
 
-    def receive_shoot(self):
+    def receive_shoot(self, enemy_list):
         self.lives -= 1
         print(self.lives)
 
         if self.lives <= 0:
             self.lives = 0
             self.death_animation()
-            self.kill()
-            print("Enemy killed")
-            self.is_visible = False
+            enemy_list.remove(self)
+        

@@ -236,19 +236,17 @@ class Player:
 
     
     def draw_star(self, screen, scale):
-        star_image = pygame.image.load("images/Object/coin/star.png")
-        star_width = star_image.get_width() * scale
-        star_height = star_image.get_height() * scale
-        spacing = 10  # Espacio entre las estrellas
-        x = 360  # Posición x inicial
-        y = 7  # Posición y
-        for _ in self.estrella:
-            star_scaled = pygame.transform.scale(star_image, (star_width, star_height))
-            screen.blit(star_scaled, (x, y))
-            x += star_width + spacing
-
-
-
+        if self.estrella:  # Verificar si la lista no está vacía
+            star_image = pygame.image.load("images/Object/coin/star.png")
+            star_width = star_image.get_width() * scale
+            star_height = star_image.get_height() * scale
+            spacing = 10  # Espacio entre las estrellas
+            x = 360  # Posición x inicial
+            y = 7  # Posición y
+            for _ in self.estrella:
+                star_scaled = pygame.transform.scale(star_image, (star_width, star_height))
+                screen.blit(star_scaled, (x, y))
+                x += star_width + spacing
 
     def check_collision(self):
         for trampa in self.trampas:
@@ -308,7 +306,7 @@ class Player:
                     colisiones_enemigos = pygame.sprite.spritecollide(objeto, self.enemigos, False)
                     if colisiones_enemigos:
                         for enemigos in colisiones_enemigos:
-                            enemigos.receive_shoot()
+                            enemigos.receive_shoot(self.enemigos)
                             self.score+=3
                             self.attack_launched = False
                             objeto.kill()
@@ -343,6 +341,7 @@ class Player:
 
             colisiones_star = pygame.sprite.spritecollide(self, self.estrella, True)
             if colisiones_star:
+                self.draw_star(screen, 0.2)
                 self.estrella+=1
 
         if self.game_over:
@@ -386,12 +385,12 @@ class Player:
         if(keys[pygame.K_x] and not keys[pygame.K_z]):
             self.knife()
         
-        if self.game_over and self.is_death_animation_finished==True:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.restart_game = False
-                    self.game_over = False
-                    self.lives = 3
-                    self.score=0
-                    self.rect.x = 0
-                    self.rect.y = 400
+        # if self.game_over and self.is_death_animation_finished==True:
+        #     for event in pygame.event.get():
+        #         if event.type == pygame.MOUSEBUTTONDOWN:
+        #             self.restart_game = False
+        #             self.game_over = False
+        #             self.lives = 3
+        #             self.score=0
+        #             self.rect.x = 0
+        #             self.rect.y = 400
