@@ -40,8 +40,9 @@ class Enemy(pygame.sprite.Sprite):
         self.is_shoot = False
         self.is_knife = False
         self.ataque = False
+
         self.objetos_lanzados = pygame.sprite.Group()
-        self.attack_cooldown = 2000 
+        self.attack_cooldown = 5000 
         self.last_attack_time = pygame.time.get_ticks()
 
         self.tiempo_transcurrido_animation = 0
@@ -84,10 +85,12 @@ class Enemy(pygame.sprite.Sprite):
                     if self.contador <= 50:
                         self.move_x = -self.speed_walk
                         self.animation = self.walk_l
+                        self.direction=DIRECTION_L
                         self.contador += 1 
                     elif self.contador <= 100:
                         self.move_x = self.speed_walk
                         self.animation = self.walk_r
+                        self.direction=DIRECTION_R
                         self.contador += 1
                     else:
                         self.contador = 0
@@ -132,24 +135,24 @@ class Enemy(pygame.sprite.Sprite):
         return elapsed_time >= self.attack_cooldown
 
     def lanzar_disparo(self):
-         tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
+        tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
 
-         if self.direction == DIRECTION_R:
-             tiro.velocidad_x = tiro.velocidad
-         else:
-             tiro.velocidad_x = -tiro.velocidad
+        if self.direction == DIRECTION_R:
+            tiro.velocidad_x = tiro.velocidad
+        else:
+            tiro.velocidad_x = -tiro.velocidad
 
-         self.objetos_lanzados.add(tiro)
+        self.objetos_lanzados.add(tiro)
 
     def atacar(self):
         if self.puede_atacar():
-            
             self.lanzar_disparo()
             self.last_attack_time = pygame.time.get_ticks()
 
     def update(self,delta_ms,plataform_list, enemy_list, index):
         self.do_movement(delta_ms,plataform_list)
         self.do_animation(delta_ms, enemy_list, index) 
+        self.atacar()
 
     def draw(self,screen):
         if self.is_visible and not self.death_animation_finished:
