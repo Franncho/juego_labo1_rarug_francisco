@@ -107,7 +107,6 @@ class Enemy(pygame.sprite.Sprite):
                     break       
         return retorno          
 
-
     def do_animation(self,delta_ms, enemy_list, index):
         self.tiempo_transcurrido_animation += delta_ms
         if(self.tiempo_transcurrido_animation >= self.frame_rate_ms):
@@ -135,6 +134,7 @@ class Enemy(pygame.sprite.Sprite):
         return elapsed_time >= self.attack_cooldown
 
     def lanzar_disparo(self):
+        
         tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
 
         if self.direction == DIRECTION_R:
@@ -144,15 +144,17 @@ class Enemy(pygame.sprite.Sprite):
 
         self.objetos_lanzados.add(tiro)
 
-    def atacar(self):
-        if self.puede_atacar():
-            self.lanzar_disparo()
-            self.last_attack_time = pygame.time.get_ticks()
+    def atacar(self, pause):
+        if not pause:
+            if self.puede_atacar():
+                self.lanzar_disparo()
+                self.last_attack_time = pygame.time.get_ticks()
 
-    def update(self,delta_ms,plataform_list, enemy_list, index):
-        self.do_movement(delta_ms,plataform_list)
-        self.do_animation(delta_ms, enemy_list, index) 
-        self.atacar()
+    def update(self,delta_ms,plataform_list, enemy_list, index, pause):
+        if not pause:
+            self.do_movement(delta_ms,plataform_list)
+            self.do_animation(delta_ms, enemy_list, index) 
+            self.atacar(pause)
 
     def draw(self,screen):
         if self.is_visible and not self.death_animation_finished:

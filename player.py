@@ -6,9 +6,10 @@ from trampas import *
 from poderes import *
 from enemigo import *
 from enemigo2 import *
+from plataforma_movil import *
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, trampas=None, enemigos=None, enemigo_2=None, proyectiles_enemigos=None) -> None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, trampas=None, enemigos=None, enemigo_2=None) -> None:
         '''
         Constructor de la clase Player.
         
@@ -49,7 +50,7 @@ class Player:
         self.is_dead = False
 
         self.frame = 0
-        self.lives = 1
+        self.lives = 5
         self.estrella = estrella
         # self.vidas_extra=vidas_extra
         self.poderes=poderes
@@ -101,7 +102,6 @@ class Player:
         self.enemigos=enemigos
         self.enemigo_2=enemigo_2
 
-        self.proyectiles_enemigos=proyectiles_enemigos
 
         self.plataform=pygame.sprite.Group()
         self.win=False
@@ -114,8 +114,6 @@ class Player:
         self.invulnerable_timer = 0  # Temporizador de invulnerabilidad
         self.invulnerable_duration = 600  # Duración en milisegundos de la invulnerabilidad
 
-        
-
     def walk(self,direction):
         '''
         Inicia el movimiento del jugador en la dirección especificada.
@@ -125,6 +123,7 @@ class Player:
         '''
         if self.is_dead:
             return
+            
         if(self.is_jump == False and self.is_fall == False):
             if(self.direction != direction or (self.animation != self.walk_r and self.animation != self.walk_l)):
                 self.frame = 0
@@ -253,8 +252,7 @@ class Player:
                 self.ground_collition_rect.bottom = self.collition_rect.bottom
                 break
 
-
-    def do_movement(self, delta_ms, plataform_list):
+    def do_movement(self, delta_ms, plataform_list, plataforma_movil_lista ):
         if self.is_dead:
             return
         self.tiempo_transcurrido_move += delta_ms
@@ -266,7 +264,7 @@ class Player:
             self.change_x(self.move_x)
             self.change_y(self.move_y)
 
-            if not self.is_on_plataform(plataform_list):
+            if not self.is_on_plataform(plataform_list,  plataforma_movil_lista):
                 if self.move_y == 0:
                     self.is_fall = True
                     self.change_y(self.gravity)
@@ -278,7 +276,7 @@ class Player:
                     self.jump(False)
                 self.is_fall = False
 
-    def is_on_plataform(self,plataform_list):
+    def is_on_plataform(self,plataform_list, plataforma_movil_lista):
         '''
         Verifica si el jugador se encuentra sobre alguna plataforma.
 
@@ -295,6 +293,9 @@ class Player:
             retorno = True 
 
         else:
+            for plataforma_movil in plataforma_movil_lista:
+                if self.ground_collition_rect.colliderect(plataforma_movil.collision_rect):
+                    return True 
             for plataforma in plataform_list:
                 if self.ground_collition_rect.colliderect(plataforma.ground_collition_rect):
                     return True      
@@ -416,7 +417,7 @@ class Player:
             self.death_animation()
             # self.remove(self)
 
-    def update(self, delta_ms, plataform_list, player, index, enemy_list):
+    def update(self, delta_ms, plataform_list, player, index, enemy_list,  plataforma_movil_lista):
             '''
             Actualiza el estado del jugador en función del tiempo transcurrido y las interacciones con otros objetos y enemigos.
 
@@ -427,9 +428,10 @@ class Player:
             - index (int): Índice del jugador en la lista de jugadores.
             '''
             if not self.pause and not self.game_over:
-                self.do_movement(delta_ms, plataform_list)
+                self.do_movement(delta_ms, plataform_list, plataforma_movil_lista)
                 self.do_animation(delta_ms, player, index)
                 self.check_collision()
+
 
                 if not self.heat_state:
                     self.delta = delta_ms
@@ -450,7 +452,7 @@ class Player:
                     self.jump_height = 100
                 
                 if current_time - self.last_power_collected_time >= 5000:  # 5 segundos en milisegundos
-                    # self.poderes.empty()
+                    self.poderes.empty()
                     # Crear nuevo poder
                     new_power = Poderes(250, 170, "images/Object/coin/papas.png", scale=2)
                     self.poderes.add(new_power)
@@ -478,7 +480,6 @@ class Player:
                             self.score+=3
                             self.attack_launched = False
                             objeto.kill()
-
 
                 for enemy in enemy_list:
                     for objeto in enemy.objetos_lanzados:
@@ -540,32 +541,35 @@ class Player:
         
         self.tiempo_transcurrido += delta_ms
 
-        if(keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]):
+        if(keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT] and not self.pause):
             self.walk(DIRECTION_L)
 
-        if(not keys[pygame.K_LEFT] and keys[pygame.K_RIGHT]):
+        if(not keys[pygame.K_LEFT] and keys[pygame.K_RIGHT] and not self.pause):
             self.walk(DIRECTION_R)
 
-        if(not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT] and not keys[pygame.K_SPACE]):
+        if(not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT] and not keys[pygame.K_SPACE] and not self.pause):
             self.stay()
-        if(keys[pygame.K_LEFT] and keys[pygame.K_RIGHT] and not keys[pygame.K_SPACE]):
+        if(keys[pygame.K_LEFT] and keys[pygame.K_RIGHT] and not keys[pygame.K_SPACE] and not self.pause):
             self.stay()  
 
-        if(keys[pygame.K_SPACE]):
+        if(keys[pygame.K_SPACE] and not self.pause):
             if((self.tiempo_transcurrido - self.tiempo_last_jump) > self.interval_time_jump):
                 self.jump(True)
                 self.tiempo_last_jump = self.tiempo_transcurrido
 
-        if(not keys[pygame.K_x]):
+        if(not keys[pygame.K_x] and not self.pause):
             self.shoot(False)  
 
-        if(not keys[pygame.K_x]):
+        if(not keys[pygame.K_x] and not self.pause):
             self.knife(False)  
 
-        if(keys[pygame.K_z] and not keys[pygame.K_x] and not self.attack_launched):
+        if(keys[pygame.K_z] and not keys[pygame.K_x] and not self.attack_launched and not self.pause):
             self.shoot()
             self.lanzar_objeto()
             self.attack_launched = True
         
-        if(keys[pygame.K_x] and not keys[pygame.K_z]):
+        if(keys[pygame.K_x] and not keys[pygame.K_z] and not self.pause):
             self.knife()
+
+        if(keys[pygame.K_ESCAPE]):
+            self.pause=True
