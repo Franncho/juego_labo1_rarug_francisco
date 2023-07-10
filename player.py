@@ -293,9 +293,10 @@ class Player:
             retorno = True 
 
         else:
-            for plataforma_movil in plataforma_movil_lista:
-                if self.ground_collition_rect.colliderect(plataforma_movil.collision_rect):
-                    return True 
+            if plataforma_movil_lista:
+                for plataforma_movil in plataforma_movil_lista:
+                    if self.ground_collition_rect.colliderect(plataforma_movil.collision_rect):
+                        return True 
             for plataforma in plataform_list:
                 if self.ground_collition_rect.colliderect(plataforma.ground_collition_rect):
                     return True      
@@ -485,10 +486,21 @@ class Player:
                     for objeto in enemy.objetos_lanzados:
                         if self.collition_rect.colliderect(objeto.rect):
                             self.recibir_ataque()
+                
+                collision_enemy = pygame.sprite.spritecollide(self, self.enemigo_2, False)
+                if collision_enemy:
+                    for enemy in collision_enemy:
+                        self.lives -= 1
+                        print(self.lives)
+                        push_direction = pygame.Vector2(self.rect.center) - pygame.Vector2(enemy.rect.center)
+                        push_direction.normalize_ip()
+                        push_force = push_direction * 50  # Ajusta la magnitud del empuje según sea necesario
+                        self.collition_rect.move_ip(push_force)
+                        self.rect.move_ip(push_force)
+                        self.ground_collition_rect.move_ip(push_force)
 
                 self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
                 self.mask = pygame.mask.from_surface(self.image)
-
 
     def draw(self,screen):
         '''
@@ -520,12 +532,12 @@ class Player:
             center_x=(ANCHO_VENTANA//2) - (text.get_width()//2)
             center_y=(ALTO_VENTANA-290) - (text.get_height()//2)
             screen.blit(text, [center_x, center_y])
-
+        
         if self.contador_estrella>=3:
             img=pygame.image.load("images/tileset/forest/Tiles/win.png")
 
-            center_x=(ANCHO_VENTANA//2) - (img.get_width()//2)
-            center_y=(ALTO_VENTANA//2) - (img.get_height()//2)
+            center_x=(1100)
+            center_y=(10)
             screen.blit(img, [center_x, center_y])
             self.win=True
             self.pause=True

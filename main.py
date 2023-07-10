@@ -1,6 +1,7 @@
 import pygame
 from constantes import *
 from nivel_1 import *
+from constantes import *
 
 
 pygame.init()
@@ -11,21 +12,22 @@ pygame.display.set_caption("Ingrese Nivel")
 fondo = pygame.image.load("images/gui/jungle/menu/bg.png").convert()
 fondo = pygame.transform.scale(fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
+#Ajustar la suma o resta del alto y ancho para que quede good 
 marco = pygame.image.load("images/gui/jungle/level_select/table2.png")
 marco = pygame.transform.scale(marco, (600, 500))  # Ajusta el tamaño de la imagen según sea necesario
 marco_rect = marco.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
 
 marco_1_image = pygame.image.load("images/gui/jungle/pause/bg.png")
 marco_1_image = pygame.transform.scale(marco_1_image, (100, 100))
-marco_1_rect = pygame.Rect(510, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+marco_1_rect = pygame.Rect(ANCHO_VENTANA //2 -200, ALTO_VENTANA //2-200, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
 marco_2_image = pygame.image.load("images/gui/jungle/pause/bg.png")
 marco_2_image = pygame.transform.scale(marco_2_image, (100, 100))
-marco_2_rect = pygame.Rect(690, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+marco_2_rect = pygame.Rect(ANCHO_VENTANA //2 -270, ALTO_VENTANA //2-200, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
 marco_3_image = pygame.image.load("images/gui/jungle/pause/bg.png")
 marco_3_image = pygame.transform.scale(marco_3_image, (100, 100))
-marco_3_rect = pygame.Rect(870, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+marco_3_rect = pygame.Rect(ANCHO_VENTANA //2 -300, ALTO_VENTANA //2-200, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
 nivel_1_numero = pygame.image.load("images/gui/jungle/bubble/1.png")
 nivel_2_numero = pygame.image.load("images/gui/jungle/bubble/2.png")
