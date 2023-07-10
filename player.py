@@ -472,6 +472,11 @@ class Player:
                             self.score+=3
                             self.attack_launched = False
                             objeto.kill()
+                    if current_time - self.last_power_collected_time >= 5000:  # 5 segundos en milisegundos
+                        # Crear nuevo enemigo
+                        new_enemy = Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08)
+                        self.enemigos.add(new_enemy)
+                        self.last_power_collected_time = current_time
                 
                 for objeto in self.objetos_lanzados:
                     colisiones_enemigos_2 = pygame.sprite.spritecollide(objeto, self.enemigo_2, False)

@@ -9,9 +9,8 @@ from objeto import *
 from trampas import *
 from poderes import *
 from enemigo2 import *
-from prueba import *
-from nivel_2 import *
-from main import *
+from comienzo import *
+
 
 flags = DOUBLEBUF
 
@@ -29,6 +28,10 @@ imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_backgr
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
 def nivel_1():
+
+    from nivel_2 import nivel_2
+    from main import main
+
     #Creacion de grupo de sprites para colisiones
     estrella = pygame.sprite.Group()
     poder = pygame.sprite.Group()
@@ -179,20 +182,19 @@ def nivel_1():
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if nivel_1_rect.collidepoint(event.pos):
+                if marco_1_rect.collidepoint(event.pos):
+                    nivel_1()
+                elif marco_2_rect.collidepoint(event.pos):
                     main()
-                elif nivel_2_rect.collidepoint(event.pos):
-                    pygame.quit()
-                    sys.exit()
-                elif nivel_3_rect.collidepoint(event.pos):
+                elif marco_3_rect.collidepoint(event.pos):
                     player_1.pause=False
 
 
-                elif nivel_1_rect_win.collidepoint(event.pos):
+                elif marco_1_rect_win.collidepoint(event.pos):
                     nivel_1()
-                elif nivel_2_rect_win.collidepoint(event.pos):
+                elif marco_2_rect_win.collidepoint(event.pos):
                     nivel_2()
-                elif nivel_3_rect_win.collidepoint(event.pos):
+                elif marco_3_rect_win.collidepoint(event.pos):
                     main()
 
 
@@ -289,78 +291,61 @@ def nivel_1():
 
 
         if player_1.pause:
+
+
             marco = pygame.image.load("images/gui/jungle/level_select/table2.png")
             marco = pygame.transform.scale(marco, (600, 500))  # Ajusta el tamaño de la imagen según sea necesario
             marco_rect = marco.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
 
-            marco_1_image = pygame.image.load("images/gui/jungle/pause/bg.png")
+            pause_image=pygame.image.load("images/gui/set_gui_01/Comic/Buttons/Pause-Button.png")
+            pause_image=pygame.transform.scale(pause_image, (300, 100))  # Ajusta el tamaño de la imagen según sea necesario
+            pause_rect=pygame.Rect((ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -190, 90, 90))
+
+            marco_1_image = pygame.image.load("images/gui/set_gui_01/Comic/Buttons/repeat.png")
             marco_1_image = pygame.transform.scale(marco_1_image, (100, 100))
-            marco_1_rect = pygame.Rect(510, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_1_rect = pygame.Rect(ANCHO_VENTANA //2 - 40, ALTO_VENTANA //2, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
-            marco_2_image = pygame.image.load("images/gui/jungle/pause/bg.png")
+            marco_2_image = pygame.image.load("images/gui/set_gui_01/Comic/Buttons/home.png")
             marco_2_image = pygame.transform.scale(marco_2_image, (100, 100))
-            marco_2_rect = pygame.Rect(690, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_2_rect = pygame.Rect(ANCHO_VENTANA //2 -250, ALTO_VENTANA //2, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
-            marco_3_image = pygame.image.load("images/gui/jungle/pause/bg.png")
+            marco_3_image = pygame.image.load("images/gui/set_gui_01/Comic/Buttons/reanudar.png")
             marco_3_image = pygame.transform.scale(marco_3_image, (100, 100))
-            marco_3_rect = pygame.Rect(870, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_3_rect = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
-            nivel_1_numero = pygame.image.load("images/gui/jungle/bubble/1.png")
-            nivel_2_numero = pygame.image.load("images/gui/jungle/bubble/2.png")
-            nivel_3_numero = pygame.image.load("images/gui/jungle/bubble/3.png")
-
-            # Ajustar el tamaño de las imágenes según sea necesario
-            nivel_1_numero = pygame.transform.scale(nivel_1_numero, (35, 70))
-            nivel_1_rect = pygame.Rect(540, 315, 90, 90)
-            nivel_2_numero = pygame.transform.scale(nivel_2_numero, (70, 70))
-            nivel_2_rect = pygame.Rect(705, 315, 90, 90)
-            nivel_3_numero = pygame.transform.scale(nivel_3_numero, (70, 70))
-            nivel_3_rect = pygame.Rect(885, 315, 90, 90)
 
             screen.blit(marco, marco_rect)
+            screen.blit(pause_image, pause_rect)
             screen.blit(marco_1_image, marco_1_rect)
             screen.blit(marco_2_image, marco_2_rect)
             screen.blit(marco_3_image, marco_3_rect)
-            screen.blit(nivel_1_numero, nivel_1_rect)
-            screen.blit(nivel_2_numero, nivel_2_rect)
-            screen.blit(nivel_3_numero, nivel_3_rect)
         
         if player_1.win:
             marco_win = pygame.image.load("images/gui/jungle/level_select/table2.png")
             marco_win = pygame.transform.scale(marco, (600, 500))  # Ajusta el tamaño de la imagen según sea necesario
             marco_rect_win = marco.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
 
+            text_level_win=pygame.image.load("images/tileset/forest/Tiles/win.png")
+            text_level_win = pygame.transform.scale(text_level_win, (300, 300))
+            text_win_rect = pygame.Rect(ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -190, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+
             marco_1_image_win = pygame.image.load("images/gui/jungle/pause/bg.png")
             marco_1_image_win = pygame.transform.scale(marco_1_image_win, (100, 100))
-            marco_1_rect_win = pygame.Rect(510, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_1_rect_win = pygame.Rect(ANCHO_VENTANA //2 - 40, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
             marco_2_image_win = pygame.image.load("images/gui/jungle/pause/bg.png")
             marco_2_image_win = pygame.transform.scale(marco_2_image_win, (100, 100))
-            marco_2_rect_win = pygame.Rect(690, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_2_rect_win = pygame.Rect(ANCHO_VENTANA //2 -250, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
             marco_3_image_win = pygame.image.load("images/gui/jungle/pause/bg.png")
             marco_3_image_win = pygame.transform.scale(marco_3_image_win, (100, 100))
-            marco_3_rect_win = pygame.Rect(870, 300, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
-
-            nivel_1_numero_win = pygame.image.load("images/gui/jungle/bubble/1.png")
-            nivel_2_numero_win = pygame.image.load("images/gui/jungle/bubble/2.png")
-            nivel_3_numero_win = pygame.image.load("images/gui/jungle/bubble/3.png")
-
-            # Ajustar el tamaño de las imágenes según sea necesario
-            nivel_1_numero_win = pygame.transform.scale(nivel_1_numero_win, (35, 70))
-            nivel_1_rect_win = pygame.Rect(540, 315, 90, 90)
-            nivel_2_numero_win = pygame.transform.scale(nivel_2_numero_win, (70, 70))
-            nivel_2_rect_win = pygame.Rect(705, 315, 90, 90)
-            nivel_3_numero_win = pygame.transform.scale(nivel_3_numero_win, (70, 70))
-            nivel_3_rect_win = pygame.Rect(885, 315, 90, 90)
+            marco_3_rect_win = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
             screen.blit(marco_win, marco_rect_win)
+            screen.blit(text_level_win, text_win_rect)
             screen.blit(marco_1_image_win, marco_1_rect_win)
             screen.blit(marco_2_image_win, marco_2_rect_win)
             screen.blit(marco_3_image_win, marco_3_rect_win)
-            screen.blit(nivel_1_numero_win, nivel_1_rect_win)
-            screen.blit(nivel_2_numero_win, nivel_2_rect_win)
-            screen.blit(nivel_3_numero_win, nivel_3_rect_win)
 
         pygame.display.flip()
 
