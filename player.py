@@ -10,30 +10,6 @@ from plataforma_movil import *
 
 class Player:
     def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, trampas=None, enemigos=None, enemigo_2=None) -> None:
-        '''
-        Constructor de la clase Player.
-        
-        Parámetros:
-        - x (int): Posición horizontal inicial del jugador.
-        - y (int): Posición vertical inicial del jugador.
-        - speed_walk (int): Velocidad de desplazamiento al caminar.
-        - speed_run (int): Velocidad de desplazamiento al correr.
-        - gravity (int): Gravedad que afecta al jugador.
-        - jump_power (int): Potencia del salto del jugador.
-        - frame_rate_ms (int): Velocidad de actualización de frames en milisegundos.
-        - move_rate_ms (int): Velocidad de actualización del movimiento en milisegundos.
-        - jump_height (int): Altura máxima alcanzada al saltar.
-        - p_scale (float): Factor de escala para el tamaño del jugador (opcional, valor predeterminado: 1).
-        - interval_time_jump (int): Tiempo mínimo en milisegundos entre saltos consecutivos (opcional, valor predeterminado: 100).
-        - estrella (objeto): Objeto estrella del jugador (opcional).
-        - poderes (lista): Lista de poderes del jugador (opcional).
-        - trampas (lista): Lista de trampas del jugador (opcional).
-        - enemigos (lista): Lista de enemigos del jugador (opcional).
-        - enemigo_2 (objeto): Objeto de enemigo adicional del jugador (opcional).
-        - proyectiles_enemigos (lista): Lista de proyectiles de enemigos del jugador (opcional).
-        - plataform (objeto): Objeto de plataforma del jugador (opcional).
-
-        '''
 
         self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=False,scale=p_scale)
         self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=True,scale=p_scale)
@@ -43,8 +19,6 @@ class Player:
         self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Run ({0}).png",1,8,flip=True,scale=p_scale)
         self.shoot_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Shoot ({0}).png",1,4,flip=False,scale=p_scale,repeat_frame=2)
         self.shoot_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Shoot ({0}).png",1,4,flip=True,scale=p_scale,repeat_frame=2)
-        self.knife_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Melee ({0}).png",1,7,flip=False,scale=p_scale,repeat_frame=1)
-        self.knife_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Melee ({0}).png",1,8,flip=True,scale=p_scale,repeat_frame=1)
         self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Dead ({0}).png", 1,10,flip=False,scale=p_scale,repeat_frame=1)
         self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Dead ({0}).png", 1,10,flip=True,scale=p_scale,repeat_frame=1)
         self.is_dead = False
@@ -78,7 +52,6 @@ class Player:
         self.is_jump = False
         self.is_fall = False
         self.is_shoot = False
-        self.is_knife = False
 
         self.tiempo_transcurrido_animation = 0
         self.frame_rate_ms = frame_rate_ms 
@@ -102,8 +75,6 @@ class Player:
         self.enemigos=enemigos
         self.enemigo_2=enemigo_2
 
-
-        self.plataform=pygame.sprite.Group()
         self.win=False
         self.poder_salto_time = 0
         self.last_power_collected_time = 0
@@ -115,12 +86,6 @@ class Player:
         self.invulnerable_duration = 600  # Duración en milisegundos de la invulnerabilidad
 
     def walk(self,direction):
-        '''
-        Inicia el movimiento del jugador en la dirección especificada.
-
-        Parámetros:
-        - direction (str): Dirección del movimiento ("right" o "left").
-        '''
         if self.is_dead:
             return
             
@@ -136,13 +101,6 @@ class Player:
                     self.animation = self.walk_l
 
     def shoot(self,on_off = True):
-        '''
-        Activa o desactiva el estado de disparo del jugador.
-
-        Parámetros:
-        - on_off (bool): Estado de disparo del jugador (opcional, valor predeterminado: True).
-
-        '''
         if self.is_dead:
             return
         self.is_shoot = on_off
@@ -154,35 +112,9 @@ class Player:
                 if(self.direction == DIRECTION_R):
                     self.animation = self.shoot_r
                 else:
-                    self.animation = self.shoot_l       
-
-    def knife(self,on_off = True):
-        '''
-        Activa o desactiva el estado de ataque con cuchillo del jugador.
-
-        Parámetros:
-        - on_off (bool): Estado de ataque con cuchillo del jugador (opcional, valor predeterminado: True).
-
-        '''
-        if self.is_dead:
-            return
-        self.is_knife = on_off
-        if(on_off == True and self.is_jump == False and self.is_fall == False):
-            if(self.animation != self.knife_r and self.animation != self.knife_l):
-                self.frame = 0
-                if(self.direction == DIRECTION_R):
-                    self.animation = self.knife_r
-                else:
-                    self.animation = self.knife_l      
+                    self.animation = self.shoot_l            
 
     def jump(self,on_off = True):
-        '''
-        Hace que el jugador salte o desactive el salto.
-
-        Parámetros:
-        - on_off (bool): Estado de salto del jugador (opcional, valor predeterminado: True).
-
-        '''
         if self.is_dead:
             return
         if(on_off and self.is_jump == False and self.is_fall == False):
@@ -202,13 +134,9 @@ class Player:
             self.stay()
 
     def stay(self):
-        '''
-        Hace que el jugador se detenga y vuelva a la animación de estar quieto.
-
-        '''
         if self.is_dead:
             return
-        if(self.is_knife or self.is_shoot):
+        if(self.is_shoot):
             return
 
         if(self.animation != self.stay_r and self.animation != self.stay_l):
@@ -221,25 +149,11 @@ class Player:
             self.frame = 0
 
     def change_x(self,delta_x):
-        '''
-        Cambia la posición horizontal del jugador por una cantidad especificada.
-
-        Parámetros:
-        - delta_x (int): Cambio en la posición horizontal del jugador.
-
-        '''
         self.rect.x += delta_x
         self.collition_rect.x += delta_x
         self.ground_collition_rect.x += delta_x
 
     def change_y(self,delta_y):
-        '''
-        Cambia la posición vertical del jugador por una cantidad especificada.
-
-        Parámetros:
-        - delta_y (int): Cambio en la posición vertical del jugador.
-
-        '''
         self.rect.y += delta_y
         self.collition_rect.y += delta_y
         self.ground_collition_rect.y += delta_y
@@ -277,16 +191,6 @@ class Player:
                 self.is_fall = False
 
     def is_on_plataform(self,plataform_list, plataforma_movil_lista):
-        '''
-        Verifica si el jugador se encuentra sobre alguna plataforma.
-
-        Parámetros:
-        - plataform_list (lista): Lista de plataformas disponibles para el jugador.
-
-        Retorna:
-        - bool: True si el jugador está sobre una plataforma, False en caso contrario.
-
-        '''
         retorno = False
         
         if(self.ground_collition_rect.bottom >= GROUND_LEVEL):
@@ -303,15 +207,6 @@ class Player:
         return retorno                 
 
     def do_animation(self,delta_ms, player, index):
-        '''
-        Realiza la animación del jugador en función del tiempo transcurrido.
-
-        Parámetros:
-        - delta_ms (int): Tiempo transcurrido desde la última actualización en milisegundos.
-        - player (objeto Player): Objeto jugador al que se aplica la animación.
-        - index (int): Índice del jugador en la lista de jugadores.
-
-        '''
         self.tiempo_transcurrido_animation += delta_ms
         if(self.tiempo_transcurrido_animation >= self.frame_rate_ms):
             self.tiempo_transcurrido_animation = 0
@@ -325,9 +220,6 @@ class Player:
                     self.frame=0
 
     def lanzar_objeto(self):
-        '''
-        Lanza un objeto desde la posición central del jugador en la dirección actual.
-        '''
         if not self.pause:
             objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
 
@@ -339,19 +231,12 @@ class Player:
             self.objetos_lanzados.add(objeto)
 
     def draw_hearts(self, screen, scale):
-        '''
-        Dibuja los corazones correspondientes a las vidas del jugador en la pantalla.
-
-        Parámetros:
-        - screen (objeto pygame.Surface): Superficie de la pantalla donde se dibujan los corazones.
-        - scale (float): Factor de escala para el tamaño de los corazones.
-        '''
         heart_image = pygame.image.load("images/Object/hearts/heart.png")
         heart_width = heart_image.get_width() * scale
         heart_height = heart_image.get_height() * scale
-        spacing = 10  # Espacio entre los corazones
-        x = 70  # Posición x inicial
-        y = 10  # Posición y
+        spacing = 10
+        x = 70  
+        y = 10  
         for _ in range(self.lives):
             heart_scaled = pygame.transform.scale(heart_image, (heart_width, heart_height))
             screen.blit(heart_scaled, (x, y))
@@ -361,18 +246,15 @@ class Player:
         star_image = pygame.image.load("images/Object/coin/star.png")
         star_width = star_image.get_width() * scale
         star_height = star_image.get_height() * scale
-        spacing = 10  # Espacio entre las estrellas
-        x = 360  # Posición x inicial
-        y = 5  # Posición y
+        spacing = 10 
+        x = 360 
+        y = 5 
         for _ in range(len(self.estrella)):
             star_scaled = pygame.transform.scale(star_image, (star_width, star_height))
             screen.blit(star_scaled, (x, y))
             x += star_width + spacing
 
     def check_collision(self):
-        '''
-        Verifica las colisiones del jugador con las trampas y actualiza el estado de calor del jugador.
-        '''
         for trampa in self.trampas:
             if not self.heat_state:
                 if pygame.sprite.collide_mask(self,trampa):
@@ -387,9 +269,6 @@ class Player:
                 self.heat_state = False
 
     def death_animation(self):
-        '''
-        Realiza la animación de muerte del jugador y marca el estado de juego terminado.
-        '''
         if self.animation != self.dead_r and self.animation != self.dead_l:
             self.frame = 0
         self.is_dead = True
@@ -402,9 +281,6 @@ class Player:
             self.game_over = True
     
     def recibir_ataque(self):
-        '''
-        Reduce la vida del jugador cuando es alcanzado por un ataque.
-        '''
         if not self.invulnerable:
 
             self.lives -= 1
@@ -419,15 +295,6 @@ class Player:
             # self.remove(self)
 
     def update(self, delta_ms, plataform_list, player, index, enemy_list,  plataforma_movil_lista):
-            '''
-            Actualiza el estado del jugador en función del tiempo transcurrido y las interacciones con otros objetos y enemigos.
-
-            Parámetros:
-            - delta_ms (int): Tiempo transcurrido desde la última actualización en milisegundos.
-            - plataform_list (lista): Lista de plataformas disponibles para el jugador.
-            - player (lista): Lista de jugadores.
-            - index (int): Índice del jugador en la lista de jugadores.
-            '''
             if not self.pause and not self.game_over:
                 self.do_movement(delta_ms, plataform_list, plataforma_movil_lista)
                 self.do_animation(delta_ms, player, index)
@@ -508,13 +375,6 @@ class Player:
                 self.mask = pygame.mask.from_surface(self.image)
 
     def draw(self,screen):
-        '''
-        Dibuja al jugador en la pantalla.
-
-        Parámetros:
-        - screen (objeto pygame.Surface): Superficie de la pantalla donde se dibuja el jugador.
-        '''
-        
         if(DEBUG):
             pygame.draw.rect(screen,color=(255,0 ,0),rect=self.collition_rect)
             pygame.draw.rect(screen,color=(255,255,0),rect=self.ground_collition_rect)
@@ -547,15 +407,7 @@ class Player:
             self.win=True
             self.pause=True
 
-    def events(self,delta_ms,keys):
-        '''
-        Maneja los eventos del jugador (por ejemplo, pulsaciones de teclas) y realiza las acciones correspondientes.
-
-        Parámetros:
-        - delta_ms (int): Tiempo transcurrido desde la última actualización en milisegundos.
-        - keys (dict): Diccionario que indica las teclas pulsadas en ese momento.
-        '''
-        
+    def events(self,delta_ms,keys): 
         self.tiempo_transcurrido += delta_ms
 
         if(keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT] and not self.pause):
@@ -577,16 +429,10 @@ class Player:
         if(not keys[pygame.K_x] and not self.pause):
             self.shoot(False)  
 
-        if(not keys[pygame.K_x] and not self.pause):
-            self.knife(False)  
-
         if(keys[pygame.K_z] and not keys[pygame.K_x] and not self.attack_launched and not self.pause):
             self.shoot()
             self.lanzar_objeto()
             self.attack_launched = True
         
-        if(keys[pygame.K_x] and not keys[pygame.K_z] and not self.pause):
-            self.knife()
-
         if(keys[pygame.K_ESCAPE]):
             self.pause=True

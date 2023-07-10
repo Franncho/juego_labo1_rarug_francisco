@@ -8,7 +8,7 @@ PATH_IMAGE="C:/Users/rarug/Desktop/Rarug Francisco- Juego-python/CLASE_23_inicio
 DIRECTION_L = 0
 DIRECTION_R = 1
 GROUND_COLLIDE_H = 8 # Aprox Gravedad/2 + 1
-DEBUG = False
+DEBUG = True
 
 # COLOR CONSTANTS
 C_RED = (255,0,0)

@@ -49,7 +49,7 @@ def nivel_2():
     contador_estrellas=0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2)
+    player_1 = Player(x=0, y=0, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
@@ -85,7 +85,6 @@ def nivel_2():
 
     # plataform_list.append(Plataform(x=150, y=300, width=50, height=50, type=13))
 
-
     plataform_list.append(Plataform(x=0, y=120, width=50, height=50, type=13))
     plataform_list.append(Plataform(x=50, y=120, width=50, height=50, type=13))
     plataform_list.append(Plataform(x=100, y=120, width=50, height=50, type=13))
@@ -96,19 +95,21 @@ def nivel_2():
     
 
     plataform_list.append(Plataform(x=1050, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1100, y=120, width=50, height=50, type=13))
     plataform_list.append(Plataform(x=1150, y=120, width=50, height=50, type=13))
 
     plataform.add(plataform_list)
 
     plataforma_movil_lista=[]
-    plataforma_movil_lista.append(PlataformaMovil(400, 500, 100, 50, 50, 0.01, type=4))
+    plataforma_movil_lista.append(PlataformaMovil(400, 500, 100, 50, 50, 0.01, movimiento=0, type=4))
 
     plataforma_movil_lista_2=[]
-    plataforma_movil_lista_2.append(PlataformaMovil(645, 120, 100, 50, 50, 0.01, type=13))
+    plataforma_movil_lista_2.append(PlataformaMovil(645, 120, 100, 50, 50, 0.01, movimiento=0, type=13))
 
     plataforma_movil_lista_3=[]
-    plataforma_movil_lista_3.append(PlataformaMovil(150, 120, 100, 50, 50, 0.01, type=13))
+    plataforma_movil_lista_3.append(PlataformaMovil(150, 120, 100, 50, 50, 0.01, movimiento=0, type=13))
+
+    plataforma_movil_lista_4=[]
+    plataforma_movil_lista_4.append(PlataformaMovil(1100, 120, 90, 50, 50, 0.01, movimiento=1, type=13))
 
     #Declaracion y aplicacion de las trampas
     trampas_list=[]
@@ -334,16 +335,20 @@ def nivel_2():
                 score_timer = 0 
 
         for plataforma_1 in plataforma_movil_lista:
-            plataforma_1.update(400, 800)
+            plataforma_1.update(400, 800, 0, 0)
             plataforma_1.draw(screen)
         
         for plataforma_2 in plataforma_movil_lista_2:
-            plataforma_2.update(645, 1050)
+            plataforma_2.update(645, 1050, 0, 0)
             plataforma_2.draw(screen)
 
         for plataforma_3 in plataforma_movil_lista_3:
-            plataforma_3.update(150, 595)
+            plataforma_3.update(150, 595, 0, 0)
             plataforma_3.draw(screen)
+
+        for plataforma_4 in plataforma_movil_lista_4:
+            plataforma_4.update(0, 0, 120, 450)
+            plataforma_4.draw(screen)
 
         
         #Logica del game Over

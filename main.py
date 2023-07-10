@@ -87,7 +87,7 @@ def main():
         screen.blit(marco, marco_rect)
         screen.blit(text_level_image, text_level_rect)
         screen.blit(historia_image, historia_rect)
-        screen.blit(marco_1_image, marco_1_rect)
+        screen.blit(marco_1_image, marco_1_rect) 
         screen.blit(marco_2_image, marco_2_rect)
         screen.blit(marco_3_image, marco_3_rect)
         screen.blit(nivel_1_numero, nivel_1_rect)
