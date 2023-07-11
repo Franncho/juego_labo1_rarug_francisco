@@ -7,7 +7,6 @@ class Enemy_2(pygame.sprite.Sprite):
     def __init__(self, x, y, p_scale=1):
         super().__init__()
 
-
         # self.shoot= Auxiliar.getSurfaceFromSeparateFiles("images/npc/{0}.png", 1, 4, scale=p_scale)
         self.lives=2
         self.animation= Auxiliar.getSurfaceFromSeparateFiles("images/npc/{0}.png", 1, 4, scale=p_scale)
@@ -21,7 +20,7 @@ class Enemy_2(pygame.sprite.Sprite):
         self.direction = DIRECTION_R
         self.ataque = False
         self.objetos_lanzados = pygame.sprite.Group()
-        self.attack_cooldown = 7000 
+        self.attack_cooldown = 5000 
         self.last_attack_time = pygame.time.get_ticks()
         self.is_dead = False
 
@@ -47,36 +46,25 @@ class Enemy_2(pygame.sprite.Sprite):
                     self.frame = 0
             self.image = self.animation[self.frame]
             
-    def check_collision(self, player, objeto, enemy_list_2):
+    def check_collision(self, player, enemy_list_2):
         self.collision_rect = pygame.Rect(self.rect.x + self.rect.w/2.7, self.rect.y, self.rect.width // 3, self.rect.height)
 
         if self.collision_rect.colliderect(player.collition_rect):
             if player.collition_rect.y < self.rect.y:
                 self.receive_shoot(enemy_list_2)
-                # self.is_dead = True
-            else:
-                pass
-                # player.recibir_ataque()
 
-        for fuego in objeto:
-            if self.collision_rect.colliderect(fuego.rect):
-                self.is_dead = True
-                fuego.kill()
-
-    
     def death_animation(self):
         self.is_dead = True
         if self.direction == DIRECTION_R:
             self.animation = self.dead_r
 
-    
     def puede_atacar(self):
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - self.last_attack_time
         return elapsed_time >= self.attack_cooldown
 
     def lanzar_objeto(self):
-        objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
+        objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1, numero_objeto=1)
 
         if self.direction == DIRECTION_R:
             objeto.velocidad_x = objeto.velocidad
@@ -85,16 +73,17 @@ class Enemy_2(pygame.sprite.Sprite):
 
         self.objetos_lanzados.add(objeto)
 
-    def atacar(self):
-        if self.puede_atacar():
-            self.ataque = True
-            self.lanzar_objeto()
-            self.last_attack_time = pygame.time.get_ticks()
+    def atacar(self, pause):
+        if not pause:
+            if self.puede_atacar():
+                self.lanzar_objeto()
+                self.last_attack_time = pygame.time.get_ticks()
 
-    def update(self, delta_ms, enemy_list_2, index, player_rect):
-        self.animate(delta_ms, enemy_list_2, index)
-        self.check_collision(player_rect, self.objetos_lanzados, enemy_list_2)
-        self.atacar()
+    def update(self, delta_ms, enemy_list_2, index, player_rect, pause):
+        if not pause:
+            self.animate(delta_ms, enemy_list_2, index)
+            self.check_collision(player_rect, enemy_list_2)
+            self.atacar(pause)
 
     def draw(self, screen):
         if self.is_visible:

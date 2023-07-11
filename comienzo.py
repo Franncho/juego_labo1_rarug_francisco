@@ -3,50 +3,69 @@ from constantes import *
 from pygame.locals import *
 import sys
 
-screen= pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), 16)
+screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), 16)
 timer = pygame.time.Clock()
 
-def comienzo():
-    font_prueba=pygame.font.Font("freesansbold.ttf", 24)
+def inicio():
+    from main import main
     
-    mensajes=['Estoy probando',
-            'hola',
-            'empeza a jugar']
+    pygame.font.init()
+    font_prueba = pygame.font.Font("freesansbold.ttf", 24)
 
-    snip=font_prueba.render("", True, C_WHITE)
-    counter=0
-    done=False
-    speed=3
-    active_message=0
-    mensaje=mensajes[active_message]
+    mensajes = ['Estoy probando',
+                'hola',
+                'empezar a jugar']
 
-    run =True
+    fondo = pygame.image.load("images/gui/set_gui_01/Comic/menu/espacio.jpg").convert() # Ruta a tu imagen de fondo
+    fondo = pygame.transform.scale(fondo, (ANCHO_VENTANA, ALTO_VENTANA))
+
+    counter = 0
+    done = False
+    speed = 3
+    active_message = 0
+    mensaje = mensajes[active_message]
+
+    run = True
 
     while run:
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                run = False
 
-        screen.fill(C_RED)
-        timer.tick(60)
-        pygame.draw.rect(screen, C_BLACK, [0, 300, 800, 200])
+        screen.blit(fondo, (0, 0))
 
-        if counter <speed *len(mensaje):
-            counter+=1
+        if counter < speed * len(mensaje):
+            counter += 1
         elif counter >= speed * len(mensaje):
-            done=True
+            done = True
 
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                run=False
-                
-        if event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_RETURN and done and active_message <len(mensajes):
-                active_message +=1
-                done=False
-                mensaje=mensajes[active_message]
-                counter=0
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN and done:
+                    active_message += 1
+                    if active_message >= len(mensajes):
+                        active_message = 0
+                    done = False
+                    mensaje = mensajes[active_message]
+                    counter = 0
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    if marco_menu_rect.collidepoint(event.pos):
+                        main()
+
+
+        snip = font_prueba.render(mensaje[0:counter // speed], True, C_WHITE)
+        text_rect = snip.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
+        pygame.draw.rect(screen, (0, 0, 0, 100), text_rect)
+        screen.blit(snip, text_rect)
+
+        marco_menu_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/Menu Button.png")
+        marco_menu_image = pygame.transform.scale(marco_menu_image, (300, 100))
+        marco_menu_rect = pygame.Rect(ANCHO_VENTANA //2 -130, ALTO_VENTANA //2 +100, 290, 90) 
         
-        snip=font_prueba.render(mensaje[0:counter//speed], True, C_WHITE)
-        screen.blit(snip, (10, 310))
+        screen.blit(marco_menu_image, marco_menu_rect)
+
+        pygame.display.update()
+
+    pygame.quit()
+    sys.exit()

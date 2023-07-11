@@ -3,11 +3,20 @@ from constantes import *
 from auxiliar import Auxiliar
 
 class Objeto(pygame.sprite.Sprite):
-    def __init__(self, x, y, direccion, player, p_scale=1):
+    def __init__(self, x, y, direccion, player, p_scale=1, numero_objeto=None):
         super().__init__()
+        self.numero_objeto=numero_objeto
         self.player = player
-        self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/{0}.png", 1, 5, flip=False, scale=p_scale)
-        self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/{0}.png", 1, 5, flip=True, scale=p_scale)
+        if self.numero_objeto==1:
+            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=False, scale=p_scale)
+            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=True, scale=p_scale)
+        if self.numero_objeto==2:
+            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=False, scale=p_scale)
+            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=True, scale=p_scale)
+        if self.numero_objeto==3:
+            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/{0}.png", 1, 5, flip=False, scale=p_scale)
+            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/{0}.png", 1, 5, flip=True, scale=p_scale)
+
         self.direccion = direccion
         self.velocidad = 5  # Velocidad de movimiento del objeto
         self.frame = 0

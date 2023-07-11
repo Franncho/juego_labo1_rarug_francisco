@@ -85,6 +85,8 @@ class Player:
         self.invulnerable_timer = 0  # Temporizador de invulnerabilidad
         self.invulnerable_duration = 600  # Duración en milisegundos de la invulnerabilidad
 
+        self.max_limit=ANCHO_VENTANA
+
     def walk(self,direction):
         if self.is_dead:
             return
@@ -190,6 +192,8 @@ class Player:
                     self.jump(False)
                 self.is_fall = False
 
+            
+
     def is_on_plataform(self,plataform_list, plataforma_movil_lista):
         retorno = False
         
@@ -221,7 +225,7 @@ class Player:
 
     def lanzar_objeto(self):
         if not self.pause:
-            objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1)
+            objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.5, numero_objeto=1)
 
             if self.direction == DIRECTION_R:
                 objeto.velocidad_x = objeto.velocidad
@@ -294,6 +298,7 @@ class Player:
             self.death_animation()
             # self.remove(self)
 
+    
     def update(self, delta_ms, plataform_list, player, index, enemy_list,  plataforma_movil_lista):
             if not self.pause and not self.game_over:
                 self.do_movement(delta_ms, plataform_list, plataforma_movil_lista)
@@ -399,11 +404,6 @@ class Player:
             screen.blit(text, [center_x, center_y])
         
         if self.contador_estrella>=3:
-            img=pygame.image.load("images/tileset/forest/Tiles/win.png")
-
-            center_x=(1100)
-            center_y=(10)
-            screen.blit(img, [center_x, center_y])
             self.win=True
             self.pause=True
 
