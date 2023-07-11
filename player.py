@@ -299,7 +299,7 @@ class Player:
             # self.remove(self)
 
     
-    def update(self, delta_ms, plataform_list, player, index, enemy_list,  plataforma_movil_lista):
+    def update(self, delta_ms, plataform_list, player, index, enemy_list, enemy_list_2,  plataforma_movil_lista):
             if not self.pause and not self.game_over:
                 self.do_movement(delta_ms, plataform_list, plataforma_movil_lista)
                 self.do_animation(delta_ms, player, index)
@@ -363,6 +363,12 @@ class Player:
                     for objeto in enemy.objetos_lanzados:
                         if self.collition_rect.colliderect(objeto.rect):
                             self.recibir_ataque()
+                
+                for enemy_2 in enemy_list_2:
+                    for objeto in enemy_2.objetos_lanzados:
+                        if self.collition_rect.colliderect(objeto.rect):
+                            self.recibir_ataque()
+                            objeto.remove()
                 
                 collision_enemy = pygame.sprite.spritecollide(self, self.enemigo_2, False)
                 if collision_enemy:

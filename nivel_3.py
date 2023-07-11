@@ -9,7 +9,7 @@ from objeto import *
 from trampas import *
 from poderes import *
 from enemigo2 import *
-from comienzo import *
+from history import *
 
 flags = DOUBLEBUF
 
@@ -247,7 +247,7 @@ def nivel_3():
             rotated_rect = rotated_image.get_rect(center=i.rect.center)
             screen.blit(rotated_image, rotated_rect)
         
-        if player_1.lives > 0:
+        if player_1.lives > 0 and player_1.pause==False:
             if score_timer >= 2000: 
                 player_1.score += 2
                 score_timer = 0 
@@ -334,10 +334,18 @@ def nivel_3():
             marco_2_image_win = pygame.transform.scale(marco_2_image_win, (100, 100))
             marco_2_rect_win = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
+            font_score=("fonts/Symtext.ttf")
+            font_size = 30
+            score_size = pygame.font.Font(font_score, font_size)
+            
+            score_text = score_size.render("Your Score: " + str(player_1.score), True, (0, 0, 0))
+            score_rect = pygame.Rect(ANCHO_VENTANA //2 - 140, ALTO_VENTANA //2, 90, 90)
+
             screen.blit(marco_win, marco_rect_win)
             screen.blit(text_level_win, text_win_rect)
             screen.blit(marco_1_image_win, marco_1_rect_win)
             screen.blit(marco_2_image_win, marco_2_rect_win)
+            screen.blit(score_text, score_rect)
 
         marco_1_rect_lose=None
         marco_2_rect_lose=None
@@ -360,9 +368,17 @@ def nivel_3():
             marco_2_image_lose = pygame.transform.scale(marco_2_image_lose, (100, 100))
             marco_2_rect_lose = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
+            font_score=("fonts/Symtext.ttf")
+            font_size = 30
+            score_size = pygame.font.Font(font_score, font_size)
+            
+            score_text = score_size.render("Your Score: " + str(player_1.score), True, (0, 0, 0))
+            score_rect = pygame.Rect(ANCHO_VENTANA //2 - 140, ALTO_VENTANA //2, 90, 90)
+
             screen.blit(marco_lose, marco_rect_lose)
             screen.blit(text_level_lose, text_lose_rect)
             screen.blit(marco_1_image_lose, marco_1_rect_lose)
             screen.blit(marco_2_image_lose, marco_2_rect_lose)
+            screen.blit(score_text, score_rect)
 
         pygame.display.flip()

@@ -17,10 +17,10 @@ class Enemy_2(pygame.sprite.Sprite):
         self.rect.y = y
         self.is_visible = True
         self.dead_r=Auxiliar.getSurfaceFromSpriteSheet("images/npc/die/1.png", 6, 1, scale=p_scale)[1:6]
-        self.direction = DIRECTION_R
+        self.direction = DIRECTION_L
         self.ataque = False
         self.objetos_lanzados = pygame.sprite.Group()
-        self.attack_cooldown = 5000 
+        self.attack_cooldown = 7000 
         self.last_attack_time = pygame.time.get_ticks()
         self.is_dead = False
 
@@ -64,14 +64,12 @@ class Enemy_2(pygame.sprite.Sprite):
         return elapsed_time >= self.attack_cooldown
 
     def lanzar_objeto(self):
-        objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.1, numero_objeto=1)
+        objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=1)
 
-        if self.direction == DIRECTION_R:
-            objeto.velocidad_x = objeto.velocidad
-        else:
-            objeto.velocidad_x = -objeto.velocidad
+        objeto.velocidad_x = -objeto.velocidad  # Establecer la velocidad hacia la izquierda
 
         self.objetos_lanzados.add(objeto)
+
 
     def atacar(self, pause):
         if not pause:

@@ -6,7 +6,7 @@ import sys
 screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), 16)
 timer = pygame.time.Clock()
 
-def inicio():
+def historia():
     from main import main
     
     pygame.font.init()

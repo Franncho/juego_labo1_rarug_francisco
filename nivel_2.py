@@ -9,16 +9,12 @@ from objeto import *
 from trampas import *
 from poderes import *
 from enemigo2 import *
-from comienzo import *
+from history import *
 from main import *
 from plataforma_movil import *
 
 
 flags = DOUBLEBUF
-
-
-
-# Inicio.comienzo()
 
 screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
 pygame.init()
@@ -258,7 +254,9 @@ def nivel_2():
             screen.blit(star_scaled, (x, y))
             x += star_width + spacing
 
-        
+    time_limit = 60
+    elapsed_time = 0
+    finally_time = 0
 
     #Bucle principal del juego
     while True:
@@ -337,7 +335,7 @@ def nivel_2():
             rotated_rect = rotated_image.get_rect(center=i.rect.center)
             screen.blit(rotated_image, rotated_rect)
         
-        if player_1.lives > 0:
+        if player_1.lives > 0 and player_1.pause==False:
             if score_timer >= 2000: 
                 player_1.score += 2
                 score_timer = 0 
@@ -366,9 +364,20 @@ def nivel_2():
             if current_time - player_1.invulnerable_timer >= player_1.invulnerable_duration:
                 player_1.invulnerable = False  # Finalizar la invulnerabilidad si ha pasado el tiempo
 
+        if player_1.win or time_limit == 0 or player_1.pause == True or player_1.game_over==True:
+            finally_time = time_limit  # Guardar el tiempo restante en la variable finally_time
+            if time_limit == 0:
+                player_1.game_over = True
+        else:
+            # Actualizar el cronómetro
+            elapsed_time += delta_ms / 1000  # Convertir delta_ms a segundos y agregarlo al tiempo transcurrido
+            if elapsed_time >= 1:
+                time_limit -= 1
+                elapsed_time = 0
+
         #Dibujo en pantalla de actualizaciones de personaje, plataforma, etc
         player_1.events(delta_ms, keys)
-        player_1.update(delta_ms, plataform_list, player_1, index, enemy_list, plataforma_movil_lista)
+        player_1.update(delta_ms, plataform_list, player_1, index, enemy_list, enemy_list_2,  plataforma_movil_lista)
         player_1.draw(screen)
         
         player_1.objetos_lanzados.update()
@@ -387,6 +396,12 @@ def nivel_2():
 
         stars_text = font.render("Stars:", True, (255, 255, 255))
         screen.blit(stars_text, (300, 5))
+
+        font_path = "fonts/LLPIXEL3.ttf"
+        font_size = 20
+        font_timer = pygame.font.Font(font_path, font_size) 
+        text_time = font_timer.render("Time:"+str(time_limit), True, (255, 255, 255))
+        screen.blit(text_time, (800, 5))
 
         marco_1_rect=None
         marco_2_rect=None
@@ -412,6 +427,7 @@ def nivel_2():
             marco_3_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/Menu Button.png")
             marco_3_image = pygame.transform.scale(marco_3_image, (300, 100))
             marco_3_rect = pygame.Rect(ANCHO_VENTANA //2 -130, ALTO_VENTANA //2 +100, 290, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+
 
 
             screen.blit(marco, marco_rect)
@@ -447,12 +463,19 @@ def nivel_2():
             marco_3_image_win = pygame.transform.scale(marco_3_image_win, (100, 100))
             marco_3_rect_win = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
+            font_score=("fonts/Symtext.ttf")
+            font_size = 30
+            score_size = pygame.font.Font(font_score, font_size)
+            
+            score_text = score_size.render("Your Score: " + str(player_1.score), True, (0, 0, 0))
+            score_rect = pygame.Rect(ANCHO_VENTANA //2 - 140, ALTO_VENTANA //2, 90, 90)
+
             screen.blit(marco_win, marco_rect_win)
             screen.blit(text_level_win, text_win_rect)
             screen.blit(marco_1_image_win, marco_1_rect_win)
             screen.blit(marco_2_image_win, marco_2_rect_win)
             screen.blit(marco_3_image_win, marco_3_rect_win)
-
+            screen.blit(score_text, score_rect)
         
         marco_1_rect_lose=None
         marco_2_rect_lose=None
@@ -475,9 +498,17 @@ def nivel_2():
             marco_2_image_lose = pygame.transform.scale(marco_2_image_lose, (100, 100))
             marco_2_rect_lose = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
 
+            font_score=("fonts/Symtext.ttf")
+            font_size = 30
+            score_size = pygame.font.Font(font_score, font_size)
+            
+            score_text = score_size.render("Your Score: " + str(player_1.score), True, (0, 0, 0))
+            score_rect = pygame.Rect(ANCHO_VENTANA //2 - 140, ALTO_VENTANA //2, 90, 90)
+
             screen.blit(marco_lose, marco_rect_lose)
             screen.blit(text_level_lose, text_lose_rect)
             screen.blit(marco_1_image_lose, marco_1_rect_lose)
             screen.blit(marco_2_image_lose, marco_2_rect_lose)
+            screen.blit(score_text, score_rect)
 
         pygame.display.flip()

@@ -52,7 +52,7 @@ def main():
     from nivel_1 import nivel_1
     from nivel_2 import nivel_2
     from nivel_3 import nivel_3
-    from comienzo import inicio
+    from history import historia
     
     running = True
     current_level = 0
@@ -79,7 +79,7 @@ def main():
         elif current_level == 3:
             nivel_3()
         elif current_level == 4 :
-            inicio()
+            historia()
         # Añade más niveles según sea necesario
 
         screen.blit(fondo, (0, 0))
