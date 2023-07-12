@@ -25,9 +25,33 @@ class Enemy(pygame.sprite.Sprite):
             self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/brown/die/d_{0}.png",0,17,scale=p_scale)
             self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/brown/die/d_{0}.png",0,17,flip=True,scale=p_scale)
 
+        elif self.numero_enemy==3:
+            self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/run/r_{0}.png",0,6,scale=p_scale)
+            self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/run/r_{0}.png",0,6,flip=True,scale=p_scale)
+            self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/idle/i_{0}.png",0,6,scale=p_scale)
+            self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/idle/i_{0}.png",0,6,flip=True,scale=p_scale)
+            self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/die/d_{0}.png",0,17,scale=p_scale)
+            self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/die/d_{0}.png",0,17,flip=True,scale=p_scale)
+
+        elif self.numero_enemy==4:
+            self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/run/r_{0}.png",0,6,scale=p_scale)
+            self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/run/r_{0}.png",0,6,flip=True,scale=p_scale)
+            self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/idle/i_{0}.png",0,6,scale=p_scale)
+            self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/idle/i_{0}.png",0,6,flip=True,scale=p_scale)
+            self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/die/d_{0}.png",0,17,scale=p_scale)
+            self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/die/d_{0}.png",0,17,flip=True,scale=p_scale)
+
+
         self.contador = 0
         self.frame = 0
-        self.lives = 2
+
+        if self.numero_enemy==1 or self.numero_enemy==2 or self.numero_enemy==3:
+            self.lives = 2
+        
+        if self.numero_enemy==4:
+            self.lives=6
+        
+
         self.score = 0
         self.move_x = 0
         self.move_y = 0
@@ -53,7 +77,13 @@ class Enemy(pygame.sprite.Sprite):
         self.ataque = False
 
         self.objetos_lanzados = pygame.sprite.Group()
-        self.attack_cooldown = 5000 
+        if self.numero_enemy==1 or self.numero_enemy==2 or self.numero_enemy==3:
+            self.attack_cooldown = 5000
+
+        if self.numero_enemy==4:
+            self.attack_cooldown = 3000
+
+
         self.last_attack_time = pygame.time.get_ticks()
 
         self.tiempo_transcurrido_animation = 0
@@ -138,7 +168,6 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.animation = self.dead_l
         
-
     def puede_atacar(self):
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - self.last_attack_time

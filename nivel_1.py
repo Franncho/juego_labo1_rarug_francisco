@@ -40,6 +40,7 @@ def nivel_1():
 
     enemigo2=pygame.sprite.Group()
     plataform=pygame.sprite.Group()
+    vidas_extras=pygame.sprite.Group()
 
     pygame.init()
 
@@ -48,7 +49,7 @@ def nivel_1():
     contador_estrellas=0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=1)
+    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=1)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]

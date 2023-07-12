@@ -6,6 +6,11 @@ pygame.init()
 screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
 pygame.display.set_caption("Ingrese Nivel")
 
+pygame.display.set_caption("Chano")
+icono=pygame.image.load("images/caracters/players/robot/Idle (1).png")
+pygame.display.set_icon(icono)
+
+
 fondo = pygame.image.load("images/gui/set_gui_01/Comic/menu/espacio.jpg").convert()
 fondo = pygame.transform.scale(fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 

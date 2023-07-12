@@ -5,6 +5,7 @@ from constantes import *
 from player import Player
 from enemigo import *
 from plataforma import Plataform
+from plataforma_movil import *
 from objeto import *
 from trampas import *
 from poderes import *
@@ -17,18 +18,12 @@ screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
 pygame.init()
 clock = pygame.time.Clock()
 
-#Icono y titulo
-pygame.display.set_caption("Chano")
-icono=pygame.image.load("images/caracters/players/robot/Idle (1).png")
-pygame.display.set_icon(icono)
 
 #Se inicializa la imagen del fondo y se escala al alto y ancho de la pantalla
-imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_background.jpg").convert()
+imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/background_4.jpg").convert()
 imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
 def nivel_3():
-    from nivel_1 import nivel_1
-    from nivel_2 import nivel_2
     from main import main
     
     #Creacion de grupo de sprites para colisiones
@@ -39,6 +34,7 @@ def nivel_3():
 
     enemigo2=pygame.sprite.Group()
     plataform=pygame.sprite.Group()
+    vidas_extras=pygame.sprite.Group()
 
     pygame.init()
 
@@ -50,35 +46,25 @@ def nivel_3():
     contador_estrellas=0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2)
+    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=3)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
-    enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
-    enemy_list.append(Enemy(x=950, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08))
+    enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=3))
+    enemy_list.append(Enemy(x=950, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=3))
+    enemy_list.append(Enemy(x=300, y=500, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=3))
+    enemy_list.append(Enemy(x=950, y=500, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=3))
+
+    #BOSS
+    enemy_list.append(Enemy(x=1100, y=100, speed_walk=6, speed_run=11, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=4))
     enemigos.add(enemy_list)
 
     enemy_list_2=[]
-    enemy_list_2.append(Enemy_2(x=900, y=175, p_scale=1))
+    enemy_list_2.append(Enemy_2(x=300, y=175, p_scale=1, numero_enemy_2=1))
     enemigo2.add(enemy_list_2)
 
     #Declaracion de plataformas
     plataform_list = []
-
-    plataform_list.append(Plataform(x=1100, y=500, width=50, height=50, type=13))
-
-    plataform_list.append(Plataform(x=450, y=430, width=50, height=50, type=1))
-    plataform_list.append(Plataform(x=500, y=430, width=50, height=50, type=1))
-    plataform_list.append(Plataform(x=550, y=430, width=50, height=50, type=1))
-
-    plataform_list.append(Plataform(x=650, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=700, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=750, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=800, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=850, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=900, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=950, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1000, y=430, width=50, height=50, type=4))
 
     plataform_list.append(Plataform(x=0, y=430, width=50, height=50, type=4))
     plataform_list.append(Plataform(x=50, y=430, width=50, height=50, type=4))
@@ -88,8 +74,23 @@ def nivel_3():
     plataform_list.append(Plataform(x=250, y=430, width=50, height=50, type=4))
     plataform_list.append(Plataform(x=300, y=430, width=50, height=50, type=4))
     plataform_list.append(Plataform(x=350, y=430, width=50, height=50, type=4))
+    
 
-    plataform_list.append(Plataform(x=150, y=300, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=400, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=450, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=500, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=550, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=600, y=430, width=50, height=50, type=4))
+
+    plataform_list.append(Plataform(x=650, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=700, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=750, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=800, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=850, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=900, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=950, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=1000, y=430, width=50, height=50, type=4))
+    plataform_list.append(Plataform(x=1050, y=430, width=50, height=50, type=4))
 
     plataform_list.append(Plataform(x=500, y=230, width=50, height=50, type=13))
     plataform_list.append(Plataform(x=450, y=230, width=50, height=50, type=13))
@@ -97,45 +98,56 @@ def nivel_3():
     plataform_list.append(Plataform(x=350, y=230, width=50, height=50, type=13))
     plataform_list.append(Plataform(x=300, y=230, width=50, height=50, type=13))
     plataform_list.append(Plataform(x=250, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=200, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=150, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=100, y=230, width=50, height=50, type=13))
 
-    plataform_list.append(Plataform(x=730, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=780, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=830, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=880, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=930, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=980, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=750, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=800, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=850, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=900, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=950, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=1000, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=1050, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=1100, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=1150, y=230, width=50, height=50, type=13))
+    plataform_list.append(Plataform(x=1200, y=230, width=50, height=50, type=13))
 
-    plataform_list.append(Plataform(x=1150, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1050, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1100, y=120, width=50, height=50, type=13))
 
     plataform.add(plataform_list)
 
+    plataforma_movil_lista=[]
+
+    plataforma_movil_lista.append(PlataformaMovil(1100, 430, 90, 50, 50, 0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=430, end_y=550))
+    plataforma_movil_lista.append(PlataformaMovil(50, 100, 70, 50, 50, 0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=100, end_y=350))
+
+    plataforma_movil_lista.append(PlataformaMovil(550, 230, 70, 50, 50, 0.01, movimiento=0, type=13, start_x=550, end_x=750, start_y=0, end_y=0))
     #Declaracion y aplicacion de las trampas
     trampas_list=[]
-    trampas_list.append(Trampa(500, 380, "images/Object/trampas/Spike.png", 0.2))
+    trampas_list.append(Trampa(400, 380, "images/Object/trampas/Spike.png", 0.2))
+    trampas_list.append(Trampa(600, 380, "images/Object/trampas/Spike.png", 0.2))
     trampa.add(trampas_list)
 
     #Declaracion y aplicacion de las estrellas
-    star_list = [(115, 360), (300, 170), (1115, 60)]  
+    star_list = [(115, 360), (50, 40), (1115, 60)]  
     for posicion in star_list:
         x = posicion[0]
         y = posicion[1]
         star= Poderes(x, y, "images/Object/coin/star.png", scale=0.3)
         estrella.add(star)
 
-    #Declaracion y aplicacion de los poderes
-    poderes = [(250, 170)]  
-    for posicion in poderes:
+   
+    vidas_extra_list=[(150, 170), (950, 380), (800, 150)]
+    for posicion in vidas_extra_list:
         x = posicion[0]
         y = posicion[1]
-        poderes = Poderes(x, y, "images/Object/coin/papas.png", scale=2)
-        poder.add(poderes)
+        corazon= Poderes(x, y, "images/Object/hearts/heart.png", scale=0.1500)
+        vidas_extras.add(corazon)
 
 
     def reset_objects():
         estrella.empty()
-        poder.empty()
+        vidas_extras.empty()
 
         star_list = [(115, 360), (300, 170), (1115, 60)]
         for posicion in star_list:
@@ -144,12 +156,13 @@ def nivel_3():
             star = Poderes(x, y, "images/Object/coin/star.png", scale=0.3)
             estrella.add(star)
 
-        poderes = [(250, 170)]
-        for posicion in poderes:
+        vidas_extra_list=[(115, 360), (50, 40), (1115, 60)]
+        for posicion in vidas_extra_list:
             x = posicion[0]
             y = posicion[1]
-            poder_objeto = Poderes(x, y, "images/Object/coin/papas.png", scale=2)
-            poder.add(poder_objeto)
+            corazon= Poderes(x, y, "images/Object/hearts/heart.png", scale=0.1500)
+            vidas_extras.add(corazon)
+
 
         
     def draw_star(self, screen, scale):
@@ -171,7 +184,9 @@ def nivel_3():
             screen.blit(star_scaled, (x, y))
             x += star_width + spacing
 
-        
+    time_limit = 60
+    elapsed_time = 0
+    finally_time = 0
 
     #Bucle principal del juego
     while True:
@@ -206,6 +221,7 @@ def nivel_3():
         keys = pygame.key.get_pressed()
         delta_ms = clock.tick(FPS)
         score_timer += delta_ms
+        elapsed_time += delta_ms / 2000 
         
         #Declaracion del fondo del juego
         screen.blit(imagen_fondo, (0, 0))
@@ -213,6 +229,13 @@ def nivel_3():
         #Dibujas en pantalla objetos variados
         for plataforma in plataform_list:
             plataforma.draw(screen)
+
+        for plataforma_movil in plataforma_movil_lista:
+            plataforma_movil.update(player_1.pause)
+            plataforma_movil.draw(screen)
+
+        for pinches in trampas_list:
+            pinches.draw(screen)
 
         for index, enemy in enumerate(enemy_list):
                 enemy.update(delta_ms, plataform_list, enemy_list, index, pause=player_1.pause)
@@ -225,15 +248,12 @@ def nivel_3():
             
 
         for index, enemy_2 in enumerate(enemy_list_2):
-            enemy_2.update(delta_ms, enemy_list_2, index=index, player_rect=player_1)
+            enemy_2.update(delta_ms, enemy_list_2, index=index, player_rect=player_1, pause=player_1.pause)
             enemy_2.draw(screen)
 
             enemy_2.objetos_lanzados.update()
             enemy_2.objetos_lanzados.draw(screen)
             
-
-        for pinches in trampas_list:
-            pinches.draw(screen)
 
         for obj in estrella:
             obj.update(delta_ms)
@@ -241,13 +261,13 @@ def nivel_3():
             rotated_rect = rotated_image.get_rect(center=obj.rect.center)
             screen.blit(rotated_image, rotated_rect)
         
-        for i in poder:
-            i.update(delta_ms)
-            rotated_image = pygame.transform.rotate(i.image, i.angle)
-            rotated_rect = rotated_image.get_rect(center=i.rect.center)
+        for heart in vidas_extras:
+            heart.update(delta_ms)
+            rotated_image = pygame.transform.rotate(heart.image, heart.angle)
+            rotated_rect = rotated_image.get_rect(center=heart.rect.center)
             screen.blit(rotated_image, rotated_rect)
         
-        if player_1.lives > 0 and player_1.pause==False:
+        if player_1.lives > 0 and player_1.pause==False and player_1.game_over==False:
             if score_timer >= 2000: 
                 player_1.score += 2
                 score_timer = 0 
@@ -257,9 +277,20 @@ def nivel_3():
             if current_time - player_1.invulnerable_timer >= player_1.invulnerable_duration:
                 player_1.invulnerable = False  # Finalizar la invulnerabilidad si ha pasado el tiempo
 
+        if player_1.win or time_limit == 0 or player_1.pause == True or player_1.game_over==True:
+            finally_time = time_limit  # Guardar el tiempo restante en la variable finally_time
+            if time_limit == 0:
+                player_1.game_over = True
+        else:
+            # Actualizar el cronómetro
+            elapsed_time += delta_ms / 2000  # Convertir delta_ms a segundos y agregarlo al tiempo transcurrido
+            if elapsed_time >= 1:
+                time_limit -= 1
+                elapsed_time = 0
+
         #Dibujo en pantalla de actualizaciones de personaje, plataforma, etc
         player_1.events(delta_ms, keys)
-        player_1.update(delta_ms, plataform_list, player_1, index, enemy_list, plataforma_movil_lista=None)
+        player_1.update(delta_ms, plataform_list, player_1, index, enemy_list, enemy_list_2, plataforma_movil_lista)
         player_1.draw(screen)
         
         player_1.objetos_lanzados.update()
@@ -278,6 +309,12 @@ def nivel_3():
 
         stars_text = font.render("Stars:", True, (255, 255, 255))
         screen.blit(stars_text, (300, 5))
+
+        font_path = "fonts/LLPIXEL3.ttf"
+        font_size = 20
+        font_timer = pygame.font.Font(font_path, font_size) 
+        text_time = font_timer.render("Time:"+str(time_limit), True, (255, 255, 255))
+        screen.blit(text_time, (800, 5))
 
 
         marco_1_rect=None

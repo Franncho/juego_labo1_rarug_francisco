@@ -8,8 +8,9 @@ from enemigo import *
 from enemigo2 import *
 from plataforma_movil import *
 
+
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, trampas=None, enemigos=None, enemigo_2=None, numero_player=None) -> None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, vidas_extra=None, trampas=None, enemigos=None, enemigo_2=None, numero_player=None) -> None:
         
         self.numero_player=numero_player
         self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=False,scale=p_scale)
@@ -27,7 +28,7 @@ class Player:
         self.frame = 0
         self.lives = 5
         self.estrella = estrella
-        # self.vidas_extra=vidas_extra
+        self.vidas_extra=vidas_extra
         self.poderes=poderes
         self.trampas=trampas
         self.score = 0
@@ -333,10 +334,15 @@ class Player:
                         self.poderes.add(new_power)
                         self.last_power_collected_time = current_time
 
+                
+                if self.numero_player==3:
+                    colisiones_vidas = pygame.sprite.spritecollide(self, self.vidas_extra, True)
+                    if colisiones_vidas:
+                        self.lives += 1
+
 
                 if self.lives==0:
                     self.death_animation()
-                    
 
                 for objeto in self.objetos_lanzados:
                     colisiones_enemigos = pygame.sprite.spritecollide(objeto, self.enemigos, False)

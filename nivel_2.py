@@ -39,13 +39,14 @@ def nivel_2():
     enemigos=pygame.sprite.Group()
     enemigo2=pygame.sprite.Group()
     plataform=pygame.sprite.Group()
+    vidas_extras=pygame.sprite.Group()
 
     #Variables varias
     score_timer = 0
     contador_estrellas=0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=2)
+    player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras ,trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=2)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
@@ -278,6 +279,7 @@ def nivel_2():
         if not player_1.pause:
             delta_ms = clock.tick(FPS)
             score_timer += delta_ms
+            elapsed_time += delta_ms / 1000 
         
         #Declaracion del fondo del juego
         screen.blit(imagen_fondo, (0, 0))
@@ -318,7 +320,7 @@ def nivel_2():
             rotated_rect = rotated_image.get_rect(center=i.rect.center)
             screen.blit(rotated_image, rotated_rect)
         
-        if player_1.lives > 0 and player_1.pause==False:
+        if player_1.lives > 0 and player_1.pause==False and player_1.game_over==False:
             if score_timer >= 2000: 
                 player_1.score += 2
                 score_timer = 0 
