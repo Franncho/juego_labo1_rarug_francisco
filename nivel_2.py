@@ -45,7 +45,7 @@ def nivel_2():
     contador_estrellas=0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2)
+    player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=2)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
@@ -54,7 +54,7 @@ def nivel_2():
     enemigos.add(enemy_list)
 
     enemy_list_2=[]
-    enemy_list_2.append(Enemy_2(x=100, y=65, p_scale=1))
+    enemy_list_2.append(Enemy_2(x=100, y=65, p_scale=1, numero_enemy_2=2))
     enemigo2.add(enemy_list_2)
 
     #Declaracion de plataformas
@@ -207,15 +207,6 @@ def nivel_2():
         star= Poderes(x, y, "images/Object/coin/star.png", scale=0.3)
         estrella.add(star)
 
-    #Declaracion y aplicacion de los poderes
-    poderes = [(250, 170)]  
-    for posicion in poderes:
-        x = posicion[0]
-        y = posicion[1]
-        poderes = Poderes(x, y, "images/Object/coin/papas.png", scale=2)
-        poder.add(poderes)
-
-
     def reset_objects():
         estrella.empty()
         poder.empty()
@@ -226,14 +217,6 @@ def nivel_2():
             y = posicion[1]
             star = Poderes(x, y, "images/Object/coin/star.png", scale=0.3)
             estrella.add(star)
-
-        poderes = [(250, 170)]
-        for posicion in poderes:
-            x = posicion[0]
-            y = posicion[1]
-            poder_objeto = Poderes(x, y, "images/Object/coin/papas.png", scale=2)
-            poder.add(poder_objeto)
-
         
     def draw_star(self, screen, scale):
         '''

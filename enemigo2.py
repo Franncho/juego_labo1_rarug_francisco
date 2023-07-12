@@ -4,11 +4,12 @@ from auxiliar import Auxiliar
 from objeto import *
 
 class Enemy_2(pygame.sprite.Sprite):
-    def __init__(self, x, y, p_scale=1):
+    def __init__(self, x, y, p_scale=1, numero_enemy_2=None):
         super().__init__()
 
         # self.shoot= Auxiliar.getSurfaceFromSeparateFiles("images/npc/{0}.png", 1, 4, scale=p_scale)
         self.lives=2
+        self.numero_enemy_2=numero_enemy_2
         self.animation= Auxiliar.getSurfaceFromSeparateFiles("images/npc/{0}.png", 1, 4, scale=p_scale)
         self.frame = 0
         self.image = self.animation[self.frame]
@@ -17,7 +18,10 @@ class Enemy_2(pygame.sprite.Sprite):
         self.rect.y = y
         self.is_visible = True
         self.dead_r=Auxiliar.getSurfaceFromSpriteSheet("images/npc/die/1.png", 6, 1, scale=p_scale)[1:6]
-        self.direction = DIRECTION_L
+        if self.numero_enemy_2==1:
+            self.direction = DIRECTION_L
+        if self.numero_enemy_2==2:
+            self.direction = DIRECTION_R
         self.ataque = False
         self.objetos_lanzados = pygame.sprite.Group()
         self.attack_cooldown = 7000 
@@ -66,7 +70,10 @@ class Enemy_2(pygame.sprite.Sprite):
     def lanzar_objeto(self):
         objeto = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=1)
 
-        objeto.velocidad_x = -objeto.velocidad  # Establecer la velocidad hacia la izquierda
+        if self.direction == DIRECTION_R:
+            objeto.velocidad_x = objeto.velocidad
+        else:
+            objeto.velocidad_x = -objeto.velocidad
 
         self.objetos_lanzados.add(objeto)
 

@@ -48,7 +48,7 @@ def nivel_1():
     contador_estrellas=0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2)
+    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=1)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
@@ -57,7 +57,7 @@ def nivel_1():
     enemigos.add(enemy_list)
 
     enemy_list_2=[]
-    enemy_list_2.append(Enemy_2(x=900, y=175, p_scale=1))
+    enemy_list_2.append(Enemy_2(x=900, y=175, p_scale=1, numero_enemy_2=1))
     enemigo2.add(enemy_list_2)
 
     #Declaracion de plataformas
@@ -182,6 +182,7 @@ def nivel_1():
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                
                 if marco_1_rect is not None and marco_2_rect is not None and marco_3_rect is not None:
                     if marco_1_rect.collidepoint(event.pos):
                         player_1.pause=False

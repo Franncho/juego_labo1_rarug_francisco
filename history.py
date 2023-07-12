@@ -12,9 +12,16 @@ def historia():
     pygame.font.init()
     font_prueba = pygame.font.Font("freesansbold.ttf", 24)
 
-    mensajes = ['Estoy probando',
-                'hola',
-                'empezar a jugar']
+    mensajes = ['Apriete enter para ver la historia',
+                'Chano era un robot en busca de tres estrellas.',
+                'En su camino, debía superar desafíos y obstáculos en distintos niveles.',
+                'Se embarcó en una misión para recolectar tres valiosas estrellas.',
+                'El mundo que exploraba estaba lleno de desafíos y peligros...',
+                'En su búsqueda, se enfrentó a enigmáticos laberintos, desiertos desolados y cuevas oscuras.',
+                'Con determinación, Chano superó cada obstáculo y logró adquirir las tres estrellas necesarias.',
+                'Ahora, estaba listo para enfrentar un nuevo y emocionante desafío',
+                'que lo llevaría más allá de los límites conocidos...',
+                'Pulsa "Menu" para ir a la pantalla principal']
 
     fondo = pygame.image.load("images/gui/set_gui_01/Comic/menu/espacio.jpg").convert() # Ruta a tu imagen de fondo
     fondo = pygame.transform.scale(fondo, (ANCHO_VENTANA, ALTO_VENTANA))
