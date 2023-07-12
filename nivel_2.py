@@ -2,36 +2,30 @@ import pygame
 from pygame.locals import *
 import sys
 from constantes import *
-from player import Player
-from enemigo import *
-from plataforma import Plataform
-from objeto import *
-from trampas import *
-from poderes import *
-from enemigo2 import *
-from history import *
-from main import *
-from plataforma_movil import *
-
-
-flags = DOUBLEBUF
-
-screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
-pygame.init()
-clock = pygame.time.Clock()
-
-#Icono y titulo
-pygame.display.set_caption("Chano")
-icono=pygame.image.load("images/caracters/players/robot/Idle (1).png")
-pygame.display.set_icon(icono)
-
-#Se inicializa la imagen del fondo y se escala al alto y ancho de la pantalla
-imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/background_2.jpg").convert()
-imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
+import json
 
 def nivel_2():
-    from nivel_3 import nivel_3
+
+    from player import Player
+    from enemigo import Enemy
+    from enemigo2 import Enemy_2
+    from plataforma import Plataform
+    from plataforma_movil import PlataformaMovil
+    from trampas import Trampa
+    from poderes import Poderes
     from main import main
+    from nivel_3 import nivel_3
+
+    flags = DOUBLEBUF
+
+    screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
+    pygame.init()
+    clock = pygame.time.Clock()
+
+    #Se inicializa la imagen del fondo y se escala al alto y ancho de la pantalla
+    imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/background_2.jpg").convert()
+    imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
+
     #Creacion de grupo de sprites para colisiones
     estrella = pygame.sprite.Group()
     poder = pygame.sprite.Group()
@@ -44,6 +38,9 @@ def nivel_2():
     #Variables varias
     score_timer = 0
     contador_estrellas=0
+    time_limit = 90
+    elapsed_time = 0
+    finally_time = 0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
     player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras ,trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=2)
@@ -238,10 +235,6 @@ def nivel_2():
             screen.blit(star_scaled, (x, y))
             x += star_width + spacing
 
-    time_limit = 60
-    elapsed_time = 0
-    finally_time = 0
-
     #Bucle principal del juego
     while True:
         for event in pygame.event.get():
@@ -272,9 +265,6 @@ def nivel_2():
                     elif marco_2_rect_lose.collidepoint(event.pos):
                         nivel_2()
 
-            
-
-
         keys = pygame.key.get_pressed()
         if not player_1.pause:
             delta_ms = clock.tick(FPS)
@@ -297,7 +287,7 @@ def nivel_2():
             enemy.objetos_lanzados.draw(screen)
 
         for index, enemy_2 in enumerate(enemy_list_2):
-            enemy_2.update(delta_ms, enemy_list_2, index=index, player_rect=player_1, pause=player_1.pause)
+            enemy_2.update(delta_ms, enemy_list_2, index=index, pause=player_1.pause)
             enemy_2.draw(screen)
 
             enemy_2.objetos_lanzados.update()

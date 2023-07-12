@@ -34,12 +34,12 @@ class Enemy(pygame.sprite.Sprite):
             self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/die/d_{0}.png",0,17,flip=True,scale=p_scale)
 
         elif self.numero_enemy==4:
-            self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/run/r_{0}.png",0,6,scale=p_scale)
-            self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/run/r_{0}.png",0,6,flip=True,scale=p_scale)
-            self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/idle/i_{0}.png",0,6,scale=p_scale)
-            self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/idle/i_{0}.png",0,6,flip=True,scale=p_scale)
-            self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/die/d_{0}.png",0,17,scale=p_scale)
-            self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/green/die/d_{0}.png",0,17,flip=True,scale=p_scale)
+            self.walk_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/02_demon_walk/{0}.png",0,11,flip=True,scale=p_scale)
+            self.walk_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/02_demon_walk/{0}.png",0,11,scale=p_scale)
+            self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/01_demon_idle/{0}.png",0,6,scale=p_scale)
+            self.stay_l = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/01_demon_idle/{0}.png",0,6,flip=True,scale=p_scale)
+            self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/05_demon_death/{0}.png",0,21,scale=p_scale)
+            self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/05_demon_death/{0}.png",0,21,flip=True,scale=p_scale)
 
 
         self.contador = 0
@@ -60,6 +60,10 @@ class Enemy(pygame.sprite.Sprite):
         self.gravity = gravity
         self.jump_power = jump_power
         self.animation = self.stay_r
+
+        if self.numero_enemy==4:
+            self.direction = DIRECTION_L
+
         self.direction = DIRECTION_R
         self.image = self.animation[self.frame]
         self.rect = self.image.get_rect()
@@ -176,9 +180,9 @@ class Enemy(pygame.sprite.Sprite):
     def lanzar_disparo(self):
         
         tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=2)
-
+        
         if self.direction == DIRECTION_R:
-            tiro.velocidad_x = tiro.velocidad
+                tiro.velocidad_x = tiro.velocidad
         else:
             tiro.velocidad_x = -tiro.velocidad
 

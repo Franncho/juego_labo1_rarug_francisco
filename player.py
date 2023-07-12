@@ -372,13 +372,26 @@ class Player:
                         if self.collition_rect.colliderect(objeto.rect):
                             self.recibir_ataque()
                             objeto.remove()
+
+                if self.numero_player==3:
+                    collision_enemy = pygame.sprite.spritecollide(self, self.enemigos, False)
+                    if collision_enemy:
+                        for enemy in collision_enemy:
+                            self.lives -= 1
+                            print(self.lives)
+                            push_direction = pygame.Vector2(self.rect.center) - pygame.Vector2(enemy.rect.center)
+                            push_direction.normalize_ip()
+                            push_force = push_direction * 50 
+                            self.collition_rect.move_ip(push_force)
+                            self.rect.move_ip(push_force)
+                            self.ground_collition_rect.move_ip(push_force)
                 
-                collision_enemy = pygame.sprite.spritecollide(self, self.enemigo_2, False)
-                if collision_enemy:
-                    for enemy in collision_enemy:
+                collision_enemy_2 = pygame.sprite.spritecollide(self, self.enemigo_2, False)
+                if collision_enemy_2:
+                    for enemy_2 in collision_enemy_2:
                         self.lives -= 1
                         print(self.lives)
-                        push_direction = pygame.Vector2(self.rect.center) - pygame.Vector2(enemy.rect.center)
+                        push_direction = pygame.Vector2(self.rect.center) - pygame.Vector2(enemy_2.rect.center)
                         push_direction.normalize_ip()
                         push_force = push_direction * 50  # Ajusta la magnitud del empuje según sea necesario
                         self.collition_rect.move_ip(push_force)

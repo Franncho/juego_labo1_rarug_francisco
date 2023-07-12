@@ -20,8 +20,10 @@ class Enemy_2(pygame.sprite.Sprite):
         self.dead_r=Auxiliar.getSurfaceFromSpriteSheet("images/npc/die/1.png", 6, 1, scale=p_scale)[1:6]
         if self.numero_enemy_2==1:
             self.direction = DIRECTION_L
+
         if self.numero_enemy_2==2:
             self.direction = DIRECTION_R
+
         self.ataque = False
         self.objetos_lanzados = pygame.sprite.Group()
         self.attack_cooldown = 7000 
@@ -49,17 +51,13 @@ class Enemy_2(pygame.sprite.Sprite):
                 else:
                     self.frame = 0
             self.image = self.animation[self.frame]
-            
-    def check_collision(self, player, enemy_list_2):
-        self.collision_rect = pygame.Rect(self.rect.x + self.rect.w/2.7, self.rect.y, self.rect.width // 3, self.rect.height)
-
-        if self.collision_rect.colliderect(player.collition_rect):
-            if player.collition_rect.y < self.rect.y:
-                self.receive_shoot(enemy_list_2)
 
     def death_animation(self):
         self.is_dead = True
         if self.direction == DIRECTION_R:
+            self.animation = self.dead_r
+        else:
+            self.direction == DIRECTION_L
             self.animation = self.dead_r
 
     def puede_atacar(self):
@@ -84,10 +82,9 @@ class Enemy_2(pygame.sprite.Sprite):
                 self.lanzar_objeto()
                 self.last_attack_time = pygame.time.get_ticks()
 
-    def update(self, delta_ms, enemy_list_2, index, player_rect, pause):
+    def update(self, delta_ms, enemy_list_2, index, pause):
         if not pause:
             self.animate(delta_ms, enemy_list_2, index)
-            self.check_collision(player_rect, enemy_list_2)
             self.atacar(pause)
 
     def draw(self, screen):
@@ -102,7 +99,6 @@ class Enemy_2(pygame.sprite.Sprite):
     def receive_shoot(self, enemy_list_2):
         self.lives -= 1
         print(self.lives)
-
         if self.lives <= 0:
             self.lives = 0
             self.death_animation()

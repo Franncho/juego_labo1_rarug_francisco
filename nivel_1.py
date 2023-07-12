@@ -2,42 +2,33 @@ import pygame
 from pygame.locals import *
 import sys
 from constantes import *
-from player import Player
-from enemigo import *
-from plataforma import Plataform
-from objeto import *
-from trampas import *
-from poderes import *
-from enemigo2 import *
-from history import *
-
-
-flags = DOUBLEBUF
-
-screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
-pygame.init()
-clock = pygame.time.Clock()
-
-#Icono y titulo
-pygame.display.set_caption("Chano")
-icono=pygame.image.load("images/caracters/players/robot/Idle (1).png")
-pygame.display.set_icon(icono)
-
-#Se inicializa la imagen del fondo y se escala al alto y ancho de la pantalla
-imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_background.jpg").convert()
-imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
+import json
 
 def nivel_1():
 
+    from player import Player
+    from enemigo import Enemy
+    from plataforma import Plataform
+    from trampas import Trampa
+    from poderes import Poderes
+    from enemigo2 import Enemy_2
     from nivel_2 import nivel_2
     from main import main
 
-    #Creacion de grupo de sprites para colisiones
+    flags = DOUBLEBUF
+
+    screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA), flags, 16)
+    pygame.init()
+    clock = pygame.time.Clock()
+
+    imagen_fondo = pygame.image.load("images/locations/set_bg_01/forest/robot_background.jpg").convert()
+    imagen_fondo = pygame.transform.scale(imagen_fondo, (ANCHO_VENTANA, ALTO_VENTANA))
+
+    #Grupo de sprites
     estrella = pygame.sprite.Group()
     poder = pygame.sprite.Group()
     trampa=pygame.sprite.Group()
     enemigos=pygame.sprite.Group()
-
     enemigo2=pygame.sprite.Group()
     plataform=pygame.sprite.Group()
     vidas_extras=pygame.sprite.Group()
@@ -47,6 +38,9 @@ def nivel_1():
     #Variables varias
     score_timer = 0
     contador_estrellas=0
+    time_limit = 60
+    elapsed_time = 0
+    finally_time = 0
 
     #Inicializar el personaje 1 con sus atributos correspondientes
     player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=1)
@@ -62,6 +56,21 @@ def nivel_1():
     enemigo2.add(enemy_list_2)
 
     #Declaracion de plataformas
+
+#     with open("plataform_data.json", "r") as file:
+#         plataform_data = json.load(file)
+# # Recorre los datos en el archivo principal
+#     for plataforma in plataform_data:
+#         x = plataforma["x"]
+#         y = plataforma["y"]
+#         width = plataforma["width"]
+#         height = plataforma["height"]
+#         type = plataforma["type"]
+    
+#     # Crea una instancia de la plataforma utilizando los datos
+#         nueva_plataforma = Plataform(x=x, y=y, width=width, height=height, type=type)
+
+
     plataform_list = []
 
     plataform_list.append(Plataform(x=1100, y=500, width=50, height=50, type=13))
@@ -131,7 +140,6 @@ def nivel_1():
         poderes = Poderes(x, y, "images/Object/coin/papas.png", scale=2)
         poder.add(poderes)
 
-
     def reset_objects():
         estrella.empty()
         poder.empty()
@@ -150,7 +158,6 @@ def nivel_1():
             poder_objeto = Poderes(x, y, "images/Object/coin/papas.png", scale=2)
             poder.add(poder_objeto)
 
-        
     def draw_star(self, screen, scale):
         '''
         Dibuja las estrellas correspondientes a los objetos recolectados por el jugador en la pantalla.
@@ -162,19 +169,13 @@ def nivel_1():
         star_image = pygame.image.load("images/Object/coin/star.png")
         star_width = star_image.get_width() * scale
         star_height = star_image.get_height() * scale
-        spacing = 10  # Espacio entre los corazones
-        x = 360  # Posición x inicial
-        y = 10  # Posición y
+        spacing = 10
+        x = 360
+        y = 10 
         for _ in range(self.estrella):
             star_scaled = pygame.transform.scale(star_image, (star_width, star_height))
             screen.blit(star_scaled, (x, y))
             x += star_width + spacing
-
-        
-
-    time_limit = 60
-    elapsed_time = 0
-    finally_time = 0
 
     while True:
         for event in pygame.event.get():
@@ -228,7 +229,7 @@ def nivel_1():
                 enemy.objetos_lanzados.draw(screen)
 
         for index, enemy_2 in enumerate(enemy_list_2):
-            enemy_2.update(delta_ms, enemy_list_2, index=index, player_rect=player_1, pause=player_1.pause)
+            enemy_2.update(delta_ms, enemy_list_2, index=index, pause=player_1.pause)
             enemy_2.draw(screen)
 
             if not player_1.pause:
