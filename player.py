@@ -417,6 +417,11 @@ class Player:
                             self.collition_rect.move_ip(push_force)
                             self.rect.move_ip(push_force)
                             self.ground_collition_rect.move_ip(push_force)
+
+                            sonido_colision = pygame.mixer.Sound("audio/daño.wav")
+                            volumen = 0.2 
+                            sonido_colision.set_volume(volumen)
+                            sonido_colision.play()
                 
                 collision_enemy_2 = pygame.sprite.spritecollide(self, self.enemigo_2, False)
                 if collision_enemy_2:
@@ -429,6 +434,11 @@ class Player:
                         self.collition_rect.move_ip(push_force)
                         self.rect.move_ip(push_force)
                         self.ground_collition_rect.move_ip(push_force)
+
+                        sonido_colision = pygame.mixer.Sound("audio/daño.wav")
+                        volumen = 0.2 
+                        sonido_colision.set_volume(volumen)
+                        sonido_colision.play()
 
                 self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
                 self.mask = pygame.mask.from_surface(self.image)

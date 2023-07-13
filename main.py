@@ -60,8 +60,8 @@ def main():
     running = True
     current_level = 0
 
-    pygame.mixer.music.load("audio/vgm-atmospheric-deepspace.mp3")
-    volumen = 0.4  # Establecer el volumen deseado (en este caso, la mitad del volumen máximo)
+    pygame.mixer.music.load("audio/videoplayback.wav")
+    volumen = 0.4
     pygame.mixer.music.set_volume(volumen)
     pygame.mixer.music.play(loops=-1)
 
@@ -70,7 +70,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.USEREVENT + 1:
-                pygame.mixer.music.play(loops=-1)  # Reiniciar la reproducción en bucle--- para player
+                pygame.mixer.music.play(loops=-1) 
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if nivel_1_rect.collidepoint(event.pos):

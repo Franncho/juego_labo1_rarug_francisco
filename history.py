@@ -12,18 +12,22 @@ def historia():
     pygame.font.init()
     font_prueba = pygame.font.Font("freesansbold.ttf", 24)
 
-    mensajes = ['Apriete enter para ver la historia',
-                'Chano era un robot en busca de tres estrellas.',
+    mensajes = ['Apriete enter para ver esta loca historia robotica',
+                '¡Emocionante aventura robótica!', 
+                'Chano, el valiente robot, se embarcó en una misión para recolectar tres estrellas.',
                 'En su camino, debía superar desafíos y obstáculos en distintos niveles.',
                 'Se embarcó en una misión para recolectar tres valiosas estrellas.',
                 'El mundo que exploraba estaba lleno de desafíos y peligros...',
                 'En su búsqueda, se enfrentó a enigmáticos laberintos, desiertos desolados y cuevas oscuras.',
                 'Con determinación, Chano superó cada obstáculo y logró adquirir las tres estrellas necesarias.',
                 'Ahora, estaba listo para enfrentar un nuevo y emocionante desafío',
-                'que lo llevaría más allá de los límites conocidos...',
+                'que lo llevaría más allá de los límites conocidos.',
+                'Seguiremos atentos a los próximos capítulos de la asombrosa travesía de Chano',
+                'Mientras esperamos ansiosos para descubrir qué emocionante desafío le depara el futuro.',
+                '¡No se pierdan las próximas actualizaciones de esta historia llena de intriga y valentía!',
                 'Pulsa "Menu" para ir a la pantalla principal']
 
-    fondo = pygame.image.load("images/gui/set_gui_01/Comic/menu/espacio.jpg").convert() # Ruta a tu imagen de fondo
+    fondo = pygame.image.load("images/gui/set_gui_01/Comic/menu/cronica.jpg").convert() # Ruta a tu imagen de fondo
     fondo = pygame.transform.scale(fondo, (ANCHO_VENTANA, ALTO_VENTANA))
 
     counter = 0
@@ -34,11 +38,19 @@ def historia():
 
     run = True
 
+    pygame.mixer.music.load("audio/_cronica_tv_musica.mp3")
+    volumen = 0.4
+    pygame.mixer.music.set_volume(volumen)
+    pygame.mixer.music.play(loops=-1)
+
     while run:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+            if event.type == pygame.USEREVENT + 1:
+                pygame.mixer.music.play(loops=-1)
 
         screen.blit(fondo, (0, 0))
 

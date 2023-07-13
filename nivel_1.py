@@ -157,11 +157,18 @@ def nivel_1():
             screen.blit(star_scaled, (x, y))
             x += star_width + spacing
 
+    pygame.mixer.music.load("audio/vgm-atmospheric-deepspace.mp3")
+    volumen = 0.4
+    pygame.mixer.music.set_volume(volumen)
+    pygame.mixer.music.play(loops=-1)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.USEREVENT + 1:
+                pygame.mixer.music.play(loops=-1)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 

@@ -221,6 +221,7 @@ class Enemy(pygame.sprite.Sprite):
             self.image = self.animation[self.frame]
             screen.blit(self.image,self.rect)
 
+    
     def receive_shoot(self, enemy_list):
         self.lives -= 1
         print(self.lives)
@@ -228,5 +229,16 @@ class Enemy(pygame.sprite.Sprite):
         if self.lives <= 0:
             self.lives = 0
             self.death_animation()
+            if self.numero_enemy==4:
+                sonido_colision = pygame.mixer.Sound("audio/demon_dead.mp3")
+                volumen = 0.2 
+                sonido_colision.set_volume(volumen)
+                sonido_colision.play()
+
+            sonido_colision = pygame.mixer.Sound("audio/dead_enemy.mp3")
+            volumen = 0.2 
+            sonido_colision.set_volume(volumen)
+            sonido_colision.play()
+
             enemy_list.remove(self)
         

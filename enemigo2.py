@@ -86,6 +86,11 @@ class Enemy_2(pygame.sprite.Sprite):
                 self.lanzar_objeto()
                 self.last_attack_time = pygame.time.get_ticks()
 
+                sonido_colision = pygame.mixer.Sound("audio/shoot_enemy_2.mp3")
+                volumen = 0.2 
+                sonido_colision.set_volume(volumen)
+                sonido_colision.play()
+
     def update(self, delta_ms, enemy_list_2, index, pause):
         if not pause:
             self.animate(delta_ms, enemy_list_2, index)
@@ -106,6 +111,12 @@ class Enemy_2(pygame.sprite.Sprite):
         if self.lives <= 0:
             self.lives = 0
             self.death_animation()
+            
+            sonido_colision = pygame.mixer.Sound("audio/dead_enemy.mp3")
+            volumen = 0.2 
+            sonido_colision.set_volume(volumen)
+            sonido_colision.play()
+
             enemy_list_2.remove(self)
 
 
