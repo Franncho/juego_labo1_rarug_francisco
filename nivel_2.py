@@ -42,6 +42,25 @@ def nivel_2():
     elapsed_time = 0
     finally_time = 0
 
+    with open("nivel_2.json", "r") as archivo:
+        contenido_json = json.load(archivo)
+
+    
+    plataformas_nivel_1 = contenido_json["plataformas"]
+
+    plataformas = []
+
+    for plataforma in plataformas_nivel_1:
+        x = plataforma["x"]
+        y = plataforma["y"]
+        width = plataforma["width"]
+        height = plataforma["height"]
+        type = plataforma["type"]
+        
+        nueva_plataforma = Plataform(x, y, width, height, type)
+        plataformas.append(nueva_plataforma)
+
+
     #Inicializar el personaje 1 con sus atributos correspondientes
     player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras ,trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=2)
 
@@ -54,46 +73,6 @@ def nivel_2():
     enemy_list_2=[]
     enemy_list_2.append(Enemy_2(x=100, y=65, p_scale=1, numero_enemy_2=2))
     enemigo2.add(enemy_list_2)
-
-    #Declaracion de plataformas
-    plataform_list = []
-
-    plataform_list.append(Plataform(x=0, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=50, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=100, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=150, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=200, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=250, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=300, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=350, y=500, width=50, height=50, type=4))
-
-    plataform_list.append(Plataform(x=800, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=850, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=900, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=950, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1000, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1050, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1100, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1150, y=500, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1200, y=500, width=50, height=50, type=4))
-
-    # plataform_list.append(Plataform(x=150, y=300, width=50, height=50, type=13))
-
-    plataform_list.append(Plataform(x=0, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=50, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=100, y=120, width=50, height=50, type=13))
-
-
-
-    plataform_list.append(Plataform(x=595, y=120, width=50, height=50, type=13))
-    
-
-    plataform_list.append(Plataform(x=1050, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1150, y=120, width=50, height=50, type=13))
-
-    plataform.add(plataform_list)
-
-
     
     plataforma_movil_lista=[]
 
@@ -105,97 +84,21 @@ def nivel_2():
 
     plataforma_movil_lista.append(PlataformaMovil(1100, 120, 90, 50, 50, 0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=120, end_y=450))
 
-    #Declaracion y aplicacion de las trampas
-    trampas_list=[]
 
+    trampas_json = contenido_json["trampas"]
 
-    trampas_list.append(Trampa(0, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(50, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(100, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(150, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(200, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(250, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(300, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(350, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(400, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(450, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(500, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(550, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(600, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(650, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(700, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(750, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(800, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(850, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(900, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(950, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1000, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1050, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1100, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1050, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1100, 550, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1150, 550, "images/Object/trampas/Acid (1).png", 0.2))
+    trampas_list = []
 
+    for trampas_nivel_2 in trampas_json:
+        x = trampas_nivel_2["x"]
+        y = trampas_nivel_2["y"]
+        image = trampas_nivel_2["image"]
+        scale = trampas_nivel_2["scale"]
+        
+        nueva_trampa = Trampa(x, y, image, scale)
+        trampas_list.append(nueva_trampa)
 
-    trampas_list.append(Trampa(0, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(50, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(100, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(150, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(200, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(250, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(300, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(350, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(400, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(450, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(500, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(550, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(600, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(650, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(700, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(750, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(800, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(850, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(900, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(950, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1000, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1050, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1100, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1050, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1100, 570, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1150, 570, "images/Object/trampas/Acid (1).png", 0.2))
-
-    trampas_list.append(Trampa(0, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(50, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(100, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(150, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(200, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(250, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(300, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(350, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(400, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(450, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(500, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(550, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(600, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(650, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(700, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(750, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(800, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(850, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(900, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(950, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1000, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1050, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1100, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1050, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1100, 600, "images/Object/trampas/Acid (1).png", 0.2))
-    trampas_list.append(Trampa(1150, 600, "images/Object/trampas/Acid (1).png", 0.2))
-
-    trampas_list.append(Trampa(700, 600, "images/Object/trampas/Acid (1).png", 0.2))
-
-    # trampas_list.append(Trampa(500, 380, "images/Object/trampas/Spike.png", 0.2))
-
-    trampa.add(trampas_list)
+        trampa.add(trampas_list)
 
     #Declaracion y aplicacion de las estrellas
     star_list = [(600, 80), (50, 80), (1100, 400)]  
@@ -227,9 +130,9 @@ def nivel_2():
         star_image = pygame.image.load("images/Object/coin/star.png")
         star_width = star_image.get_width() * scale
         star_height = star_image.get_height() * scale
-        spacing = 10  # Espacio entre los corazones
-        x = 360  # Posición x inicial
-        y = 10  # Posición y
+        spacing = 10  
+        x = 360  
+        y = 10 
         for _ in range(self.estrella):
             star_scaled = pygame.transform.scale(star_image, (star_width, star_height))
             screen.blit(star_scaled, (x, y))
@@ -275,11 +178,11 @@ def nivel_2():
         screen.blit(imagen_fondo, (0, 0))
 
         #Dibujas en pantalla objetos variados
-        for plataforma in plataform_list:
+        for plataforma in plataformas:
             plataforma.draw(screen)
 
         for index, enemy in enumerate(enemy_list):
-            enemy.update(delta_ms, plataform_list, enemy_list, index, pause=player_1.pause)
+            enemy.update(delta_ms, plataformas, enemy_list, index, pause=player_1.pause)
             enemy.draw(screen)
 
             if not player_1.pause:
@@ -292,11 +195,9 @@ def nivel_2():
 
             enemy_2.objetos_lanzados.update()
             enemy_2.objetos_lanzados.draw(screen)
-            
-
+        
         for acid in trampas_list:
             acid.draw(screen)
-
 
         for obj in estrella:
             obj.update(delta_ms)
@@ -352,7 +253,7 @@ def nivel_2():
 
         #Dibujo en pantalla de actualizaciones de personaje, plataforma, etc
         player_1.events(delta_ms, keys)
-        player_1.update(delta_ms, plataform_list, player_1, index, enemy_list, enemy_list_2,  plataforma_movil_lista)
+        player_1.update(delta_ms, plataformas, player_1, index, enemy_list, enemy_list_2,  plataforma_movil_lista)
         player_1.draw(screen)
         
         player_1.objetos_lanzados.update()

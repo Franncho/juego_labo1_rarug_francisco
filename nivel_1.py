@@ -41,9 +41,52 @@ def nivel_1():
     time_limit = 60
     elapsed_time = 0
     finally_time = 0
+    
+    with open("nivel_1.json", "r") as archivo:
+        contenido_json = json.load(archivo)
+
+    # Obtener las plataformas del nivel 1
+    plataformas_nivel_1 = contenido_json["plataformas"]
+
+    # Crear una lista de plataformas
+    plataformas = []
+
+    # Recorrer las plataformas del nivel 1
+    for plataforma in plataformas_nivel_1:
+        x = plataforma["x"]
+        y = plataforma["y"]
+        width = plataforma["width"]
+        height = plataforma["height"]
+        type = plataforma["type"]
+        
+        # Crear la plataforma y agregarla a la lista
+        nueva_plataforma = Plataform(x, y, width, height, type)
+        plataformas.append(nueva_plataforma)
 
     #Inicializar el personaje 1 con sus atributos correspondientes
     player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=1)
+
+
+ # enemigos_nivel_1 = contenido_json["enemigos"]
+
+    # enemy_list = []
+
+    # for enemy_level_1 in enemigos_nivel_1:
+    #     x = enemy_level_1["x"]
+    #     y = enemy_level_1["y"]
+    #     speed_walk = enemy_level_1["speed_walk"]
+    #     speed_run = enemy_level_1["speed_run"]
+    #     gravity = enemy_level_1["gravity"]
+    #     frame_rate_ms = enemy_level_1["frame_rate_ms"]
+    #     move_rate_ms = enemy_level_1["move_rate_ms"]
+    #     jump_power = enemy_level_1["jump_power"]
+    #     jump_height = enemy_level_1["jump_height"]
+    #     p_scale = enemy_level_1["p_scale"]
+    #     numero_enemy = enemy_level_1["numero_enemy"]
+
+
+    #     nuevo_enemigo = Enemy(x, y, speed_walk, speed_run, gravity, frame_rate_ms, move_rate_ms, jump_power, jump_height, p_scale, numero_enemy)
+    #     enemy_list.append(nuevo_enemigo)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
@@ -54,70 +97,6 @@ def nivel_1():
     enemy_list_2=[]
     enemy_list_2.append(Enemy_2(x=900, y=175, p_scale=1, numero_enemy_2=1))
     enemigo2.add(enemy_list_2)
-
-    #Declaracion de plataformas
-
-#     with open("plataform_data.json", "r") as file:
-#         plataform_data = json.load(file)
-# # Recorre los datos en el archivo principal
-#     for plataforma in plataform_data:
-#         x = plataforma["x"]
-#         y = plataforma["y"]
-#         width = plataforma["width"]
-#         height = plataforma["height"]
-#         type = plataforma["type"]
-    
-#     # Crea una instancia de la plataforma utilizando los datos
-#         nueva_plataforma = Plataform(x=x, y=y, width=width, height=height, type=type)
-
-
-    plataform_list = []
-
-    plataform_list.append(Plataform(x=1100, y=500, width=50, height=50, type=13))
-
-    plataform_list.append(Plataform(x=450, y=430, width=50, height=50, type=1))
-    plataform_list.append(Plataform(x=500, y=430, width=50, height=50, type=1))
-    plataform_list.append(Plataform(x=550, y=430, width=50, height=50, type=1))
-
-    plataform_list.append(Plataform(x=650, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=700, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=750, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=800, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=850, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=900, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=950, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1000, y=430, width=50, height=50, type=4))
-
-    plataform_list.append(Plataform(x=0, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=50, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=100, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=150, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=200, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=250, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=300, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=350, y=430, width=50, height=50, type=4))
-
-    plataform_list.append(Plataform(x=150, y=300, width=50, height=50, type=13))
-
-    plataform_list.append(Plataform(x=500, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=450, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=400, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=350, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=300, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=250, y=230, width=50, height=50, type=13))
-
-    plataform_list.append(Plataform(x=730, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=780, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=830, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=880, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=930, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=980, y=230, width=50, height=50, type=13))
-
-    plataform_list.append(Plataform(x=1150, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1050, y=120, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1100, y=120, width=50, height=50, type=13))
-
-    plataform.add(plataform_list)
 
     #Declaracion y aplicacion de las trampas
     trampas_list=[]
@@ -217,11 +196,11 @@ def nivel_1():
         screen.blit(imagen_fondo, (0, 0))
 
         #Dibujas en pantalla objetos variados
-        for plataforma in plataform_list:
+        for plataforma in plataformas:
             plataforma.draw(screen)
 
         for index, enemy in enumerate(enemy_list):
-                enemy.update(delta_ms, plataform_list, enemy_list, index, pause=player_1.pause)
+                enemy.update(delta_ms, plataformas, enemy_list, index, pause=player_1.pause)
                 enemy.draw(screen)
 
                 if not player_1.pause:
@@ -275,7 +254,7 @@ def nivel_1():
 
         #Dibujo en pantalla de actualizaciones de personaje, plataforma, etc
         player_1.events(delta_ms, keys)
-        player_1.update(delta_ms, plataform_list, player_1, index, enemy_list, enemy_list_2, plataforma_movil_lista=None)
+        player_1.update(delta_ms, plataformas, player_1, index, enemy_list, enemy_list_2, plataforma_movil_lista=None)
         player_1.draw(screen)
         
         player_1.objetos_lanzados.update()

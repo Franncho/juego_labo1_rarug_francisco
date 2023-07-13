@@ -11,11 +11,14 @@ class Objeto(pygame.sprite.Sprite):
             self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=False, scale=p_scale)
             self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=True, scale=p_scale)
         if self.numero_objeto==2:
-            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=False, scale=p_scale)
-            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_player/{0}.png", 1, 5, flip=True, scale=p_scale)
+            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_enemy/bullet_enemy_3/{0}.png", 0, 4, flip=False, scale=p_scale)
+            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_enemy/bullet_enemy_3/{0}.png", 0, 4, flip=True, scale=p_scale)
         if self.numero_objeto==3:
-            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/{0}.png", 1, 5, flip=False, scale=p_scale)
-            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/{0}.png", 1, 5, flip=True, scale=p_scale)
+            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_enemy/bullet_enemy_2/{0}.png", 0, 4, flip=False, scale=p_scale)
+            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_enemy/bullet_enemy_2/{0}.png", 0, 4, flip=True, scale=p_scale)
+        if self.numero_objeto==4:
+            self.disparo_d = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_enemy/bullet_boss/{0}.png", 0, 4, flip=False, scale=p_scale)
+            self.disparo_i = Auxiliar.getSurfaceFromSeparateFiles("images/Object/bullet_enemy/bullet_boss/{0}.png", 0, 4, flip=True, scale=p_scale)
 
         self.direccion = direccion
         self.velocidad = 5  # Velocidad de movimiento del objeto

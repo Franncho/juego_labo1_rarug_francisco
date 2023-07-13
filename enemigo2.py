@@ -10,7 +10,11 @@ class Enemy_2(pygame.sprite.Sprite):
         # self.shoot= Auxiliar.getSurfaceFromSeparateFiles("images/npc/{0}.png", 1, 4, scale=p_scale)
         self.lives=2
         self.numero_enemy_2=numero_enemy_2
-        self.animation= Auxiliar.getSurfaceFromSeparateFiles("images/npc/{0}.png", 1, 4, scale=p_scale)
+        if self.numero_enemy_2==1:
+            self.animation= Auxiliar.getSurfaceFromSeparateFiles("images/npc/npc_2/{0}.png", 1, 4, scale=p_scale)
+        elif self.numero_enemy_2==2:
+            
+            self.animation= Auxiliar.getSurfaceFromSeparateFiles("images/npc/{0}.png", 1, 4, scale=p_scale)
         self.frame = 0
         self.image = self.animation[self.frame]
         self.rect = self.image.get_rect()

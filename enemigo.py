@@ -179,7 +179,14 @@ class Enemy(pygame.sprite.Sprite):
 
     def lanzar_disparo(self):
         
-        tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=2)
+        if self.numero_enemy==1:
+            tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=1)
+        if self.numero_enemy==2:
+            tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=2)
+        if self.numero_enemy==3:
+            tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=3)
+        if self.numero_enemy==4:
+            tiro = Objeto(self.rect.centerx, self.rect.centery, self.direction, self, p_scale=0.4, numero_objeto=4)
         
         if self.direction == DIRECTION_R:
                 tiro.velocidad_x = tiro.velocidad

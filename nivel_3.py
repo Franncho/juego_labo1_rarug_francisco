@@ -45,6 +45,26 @@ def nivel_3():
     elapsed_time = 0
     finally_time = 0
 
+
+    with open("nivel_3.json", "r") as archivo:
+        contenido_json = json.load(archivo)
+
+    
+    plataformas_nivel_3 = contenido_json["plataformas"]
+
+    plataformas = []
+
+    for plataforma in plataformas_nivel_3:
+        x = plataforma["x"]
+        y = plataforma["y"]
+        width = plataforma["width"]
+        height = plataforma["height"]
+        type = plataforma["type"]
+        
+        nueva_plataforma = Plataform(x, y, width, height, type)
+        plataformas.append(nueva_plataforma)
+
+
     #Inicializar el personaje 1 con sus atributos correspondientes
     player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=3)
 
@@ -63,70 +83,50 @@ def nivel_3():
     enemy_list_2.append(Enemy_2(x=300, y=175, p_scale=1, numero_enemy_2=1))
     enemigo2.add(enemy_list_2)
 
-    #Declaracion de plataformas
-    plataform_list = []
 
-    plataform_list.append(Plataform(x=0, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=50, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=100, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=150, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=200, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=250, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=300, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=350, y=430, width=50, height=50, type=4))
+    # plataformas_moviles_json = contenido_json["plataforma_movil"]
+
+    # plataforma_movil_lista = []
+
+    # for plataformas_moviles in plataformas_moviles_json:
+    #     x = plataformas_moviles["x"]
+    #     y = plataformas_moviles["y"]
+    #     width = plataformas_moviles["width"]
+    #     height = plataformas_moviles["height"]
+    #     velocidad = plataformas_moviles["velocidad"]
+    #     movimiento = plataformas_moviles["movimiento"]
+    #     type = plataformas_moviles["type"]
+    #     start_x = plataformas_moviles["start_x"]
+    #     end_x = plataformas_moviles["end_x"]
+    #     start_y = plataformas_moviles["start_y"]
+    #     end_y = plataformas_moviles["end_y"]
+        
+    #     nueva_plataforma_movible = PlataformaMovil(x, y, width, height, velocidad, movimiento, type, start_x, end_x, start_y, end_y)
+    #     plataforma_movil_lista.append(nueva_plataforma_movible)
+
     
-
-    plataform_list.append(Plataform(x=400, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=450, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=500, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=550, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=600, y=430, width=50, height=50, type=4))
-
-    plataform_list.append(Plataform(x=650, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=700, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=750, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=800, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=850, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=900, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=950, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1000, y=430, width=50, height=50, type=4))
-    plataform_list.append(Plataform(x=1050, y=430, width=50, height=50, type=4))
-
-    plataform_list.append(Plataform(x=500, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=450, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=400, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=350, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=300, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=250, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=200, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=150, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=100, y=230, width=50, height=50, type=13))
-
-    plataform_list.append(Plataform(x=750, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=800, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=850, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=900, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=950, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1000, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1050, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1100, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1150, y=230, width=50, height=50, type=13))
-    plataform_list.append(Plataform(x=1200, y=230, width=50, height=50, type=13))
-
-
-    plataform.add(plataform_list)
-
     plataforma_movil_lista=[]
 
-    plataforma_movil_lista.append(PlataformaMovil(1100, 430, 90, 50, 50, 0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=430, end_y=550))
-    plataforma_movil_lista.append(PlataformaMovil(50, 100, 70, 50, 50, 0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=100, end_y=350))
+    plataforma_movil_lista.append(PlataformaMovil(x=1100, y=430, desplazamiento=90, width=50, height=50, velocidad=0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=430, end_y=550))
+    plataforma_movil_lista.append(PlataformaMovil(x=50, y=100, desplazamiento=70, width=50, height=50, velocidad=0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=100, end_y=350))
 
-    plataforma_movil_lista.append(PlataformaMovil(550, 230, 70, 50, 50, 0.01, movimiento=0, type=13, start_x=550, end_x=750, start_y=0, end_y=0))
+    plataforma_movil_lista.append(PlataformaMovil(x=550, y=230, desplazamiento=70, width=50, height=50, velocidad=0.01, movimiento=0, type=13, start_x=550, end_x=750, start_y=0, end_y=0))
     #Declaracion y aplicacion de las trampas
-    trampas_list=[]
-    trampas_list.append(Trampa(400, 380, "images/Object/trampas/Spike.png", 0.2))
-    trampas_list.append(Trampa(600, 380, "images/Object/trampas/Spike.png", 0.2))
-    trampa.add(trampas_list)
+
+    trampas_json = contenido_json["trampas"]
+
+    trampas_list = []
+
+    for trampas_nivel_2 in trampas_json:
+        x = trampas_nivel_2["x"]
+        y = trampas_nivel_2["y"]
+        image = trampas_nivel_2["image"]
+        scale = trampas_nivel_2["scale"]
+        
+        nueva_trampa = Trampa(x, y, image, scale)
+        trampas_list.append(nueva_trampa)
+
+        trampa.add(trampas_list)
 
     #Declaracion y aplicacion de las estrellas
     star_list = [(115, 360), (50, 40), (1115, 60)]  
@@ -200,7 +200,7 @@ def nivel_3():
                     elif marco_3_rect.collidepoint(event.pos):
                         main()
 
-                if marco_1_rect_win is not None and marco_2_rect_win is not None and marco_3_rect_win is not None:
+                if marco_1_rect_win is not None and marco_2_rect_win is not None:
                     if marco_1_rect_win.collidepoint(event.pos):
                         nivel_3()
                     elif marco_2_rect_win.collidepoint(event.pos):
@@ -223,7 +223,7 @@ def nivel_3():
         screen.blit(imagen_fondo, (0, 0))
 
         #Dibujas en pantalla objetos variados
-        for plataforma in plataform_list:
+        for plataforma in plataformas:
             plataforma.draw(screen)
 
         for plataforma_movil in plataforma_movil_lista:
@@ -234,7 +234,7 @@ def nivel_3():
             pinches.draw(screen)
 
         for index, enemy in enumerate(enemy_list):
-                enemy.update(delta_ms, plataform_list, enemy_list, index, pause=player_1.pause)
+                enemy.update(delta_ms, plataformas, enemy_list, index, pause=player_1.pause)
                 enemy.draw(screen)
 
                 if not player_1.pause:
@@ -286,7 +286,7 @@ def nivel_3():
 
         #Dibujo en pantalla de actualizaciones de personaje, plataforma, etc
         player_1.events(delta_ms, keys)
-        player_1.update(delta_ms, plataform_list, player_1, index, enemy_list, enemy_list_2, plataforma_movil_lista)
+        player_1.update(delta_ms, plataformas, player_1, index, enemy_list, enemy_list_2, plataforma_movil_lista)
         player_1.draw(screen)
         
         player_1.objetos_lanzados.update()
@@ -348,7 +348,6 @@ def nivel_3():
 
         marco_1_rect_win=None
         marco_2_rect_win=None
-        marco_3_rect_win=None
 
         if player_1.win:
             marco_win = pygame.image.load("images/gui/set_gui_01/Comic/menu/space.jpg")
