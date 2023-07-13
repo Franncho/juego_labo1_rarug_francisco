@@ -201,6 +201,11 @@ class Enemy(pygame.sprite.Sprite):
                 self.lanzar_disparo()
                 self.last_attack_time = pygame.time.get_ticks()
 
+                sonido_colision = pygame.mixer.Sound("audio/shoot_enemy.wav")
+                volumen = 0.2 
+                sonido_colision.set_volume(volumen)
+                sonido_colision.play()
+
     def update(self,delta_ms,plataform_list, enemy_list, index, pause):
         if not pause:
             self.do_movement(delta_ms,plataform_list)

@@ -5,6 +5,7 @@ pygame.init()
 
 screen = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
 
+
 pygame.display.set_caption("Chano")
 icono=pygame.image.load("images/caracters/players/robot/Idle (1).png")
 pygame.display.set_icon(icono)
@@ -48,6 +49,8 @@ nivel_3_rect = pygame.Rect(ANCHO_VENTANA // 2 +165, ALTO_VENTANA//2 +15 , 90, 90
 historia_logo = pygame.transform.scale(historia_logo, (70, 70))
 historia_logo_rect = pygame.Rect(ANCHO_VENTANA //2 -25, ALTO_VENTANA//2 +215 , 90, 90)
 
+
+
 def main():
     from nivel_1 import nivel_1
     from nivel_2 import nivel_2
@@ -57,10 +60,17 @@ def main():
     running = True
     current_level = 0
 
+    pygame.mixer.music.load("audio/vgm-atmospheric-deepspace.mp3")
+    volumen = 0.4  # Establecer el volumen deseado (en este caso, la mitad del volumen máximo)
+    pygame.mixer.music.set_volume(volumen)
+    pygame.mixer.music.play(loops=-1)
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.USEREVENT + 1:
+                pygame.mixer.music.play(loops=-1)  # Reiniciar la reproducción en bucle--- para player
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if nivel_1_rect.collidepoint(event.pos):

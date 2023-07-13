@@ -34,6 +34,7 @@ def nivel_1():
     vidas_extras=pygame.sprite.Group()
 
     pygame.init()
+    pygame.mixer.init()
 
     #Variables varias
     score_timer = 0
@@ -392,6 +393,7 @@ def nivel_1():
             screen.blit(marco_1_image_lose, marco_1_rect_lose)
             screen.blit(marco_2_image_lose, marco_2_rect_lose)
             screen.blit(score_text, score_rect)
+
         pygame.display.flip()
 
 
