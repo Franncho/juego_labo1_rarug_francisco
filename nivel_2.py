@@ -180,7 +180,7 @@ def nivel_2():
         if not player_1.pause:
             delta_ms = clock.tick(FPS)
             score_timer += delta_ms
-            elapsed_time += delta_ms / 1000 
+            elapsed_time += delta_ms / 2500 
         
         #Declaracion del fondo del juego
         screen.blit(imagen_fondo, (0, 0))

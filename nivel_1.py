@@ -198,7 +198,7 @@ def nivel_1():
         keys = pygame.key.get_pressed()
         delta_ms = clock.tick(FPS)
         score_timer += delta_ms
-        elapsed_time += delta_ms / 1000  # Convertir delta_ms a segundos y agregarlo al tiempo transcurrido
+        elapsed_time += delta_ms / 2000  # Convertir delta_ms a segundos y agregarlo al tiempo transcurrido
 
         #Declaracion del fondo del juego
         screen.blit(imagen_fondo, (0, 0))
