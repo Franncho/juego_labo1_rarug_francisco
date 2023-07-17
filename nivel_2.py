@@ -184,6 +184,8 @@ def nivel_2():
         
         #Declaracion del fondo del juego
         screen.blit(imagen_fondo, (0, 0))
+        
+
 
         #Dibujas en pantalla objetos variados
         for plataforma in plataformas:
