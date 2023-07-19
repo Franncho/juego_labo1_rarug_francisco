@@ -82,28 +82,6 @@ def nivel_3():
     enemy_list_2=[]
     enemy_list_2.append(Enemy_2(x=300, y=175, p_scale=1, numero_enemy_2=1))
     enemigo2.add(enemy_list_2)
-
-
-    # plataformas_moviles_json = contenido_json["plataforma_movil"]
-
-    # plataforma_movil_lista = []
-
-    # for plataformas_moviles in plataformas_moviles_json:
-    #     x = plataformas_moviles["x"]
-    #     y = plataformas_moviles["y"]
-    #     width = plataformas_moviles["width"]
-    #     height = plataformas_moviles["height"]
-    #     velocidad = plataformas_moviles["velocidad"]
-    #     movimiento = plataformas_moviles["movimiento"]
-    #     type = plataformas_moviles["type"]
-    #     start_x = plataformas_moviles["start_x"]
-    #     end_x = plataformas_moviles["end_x"]
-    #     start_y = plataformas_moviles["start_y"]
-    #     end_y = plataformas_moviles["end_y"]
-        
-    #     nueva_plataforma_movible = PlataformaMovil(x, y, width, height, velocidad, movimiento, type, start_x, end_x, start_y, end_y)
-    #     plataforma_movil_lista.append(nueva_plataforma_movible)
-
     
     plataforma_movil_lista=[]
 
@@ -143,46 +121,6 @@ def nivel_3():
         y = posicion[1]
         corazon= Poderes(x, y, "images/Object/hearts/heart.png", scale=0.1500)
         vidas_extras.add(corazon)
-
-
-    def reset_objects():
-        estrella.empty()
-        vidas_extras.empty()
-
-        star_list = [(115, 360), (300, 170), (1115, 60)]
-        for posicion in star_list:
-            x = posicion[0]
-            y = posicion[1]
-            star = Poderes(x, y, "images/Object/coin/star.png", scale=0.3)
-            estrella.add(star)
-
-        vidas_extra_list=[(115, 360), (50, 40), (1115, 60)]
-        for posicion in vidas_extra_list:
-            x = posicion[0]
-            y = posicion[1]
-            corazon= Poderes(x, y, "images/Object/hearts/heart.png", scale=0.1500)
-            vidas_extras.add(corazon)
-
-
-        
-    def draw_star(self, screen, scale):
-        '''
-        Dibuja las estrellas correspondientes a los objetos recolectados por el jugador en la pantalla.
-
-        Parámetros:
-        - screen (objeto pygame.Surface): Superficie de la pantalla donde se dibujan las estrellas.
-        - scale (float): Factor de escala para el tamaño de las estrellas.
-        '''
-        star_image = pygame.image.load("images/Object/coin/star.png")
-        star_width = star_image.get_width() * scale
-        star_height = star_image.get_height() * scale
-        spacing = 10  # Espacio entre los corazones
-        x = 360  # Posición x inicial
-        y = 10  # Posición y
-        for _ in range(self.estrella):
-            star_scaled = pygame.transform.scale(star_image, (star_width, star_height))
-            screen.blit(star_scaled, (x, y))
-            x += star_width + spacing
 
     pygame.mixer.music.load("audio/vgm-atmospheric-deepspace.mp3")
     volumen = 0.4
@@ -327,24 +265,24 @@ def nivel_3():
 
         if player_1.pause and not player_1.win:
             marco = pygame.image.load("images/gui/set_gui_01/Comic/menu/espacio.jpg")
-            marco = pygame.transform.scale(marco, (600, 500))  # Ajusta el tamaño de la imagen según sea necesario
+            marco = pygame.transform.scale(marco, (600, 500))  
             marco_rect = marco.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
 
             pause_image=pygame.image.load("images/gui/set_gui_01/Large Buttons/Header.png")
-            pause_image=pygame.transform.scale(pause_image, (300, 100))  # Ajusta el tamaño de la imagen según sea necesario
+            pause_image=pygame.transform.scale(pause_image, (300, 100))  
             pause_rect=pygame.Rect((ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -300, 90, 90))
 
             marco_1_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/Continue Button.png")
             marco_1_image = pygame.transform.scale(marco_1_image, (300, 100))
-            marco_1_rect = pygame.Rect(ANCHO_VENTANA //2- 130, ALTO_VENTANA //2 -170, 290, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_1_rect = pygame.Rect(ANCHO_VENTANA //2- 130, ALTO_VENTANA //2 -170, 290, 90)  
 
             marco_2_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/New game Button.png")
             marco_2_image = pygame.transform.scale(marco_2_image, (300, 100))
-            marco_2_rect = pygame.Rect(ANCHO_VENTANA //2 - 130, ALTO_VENTANA //2 -40, 290, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_2_rect = pygame.Rect(ANCHO_VENTANA //2 - 130, ALTO_VENTANA //2 -40, 290, 90)  
 
             marco_3_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/Menu Button.png")
             marco_3_image = pygame.transform.scale(marco_3_image, (300, 100))
-            marco_3_rect = pygame.Rect(ANCHO_VENTANA //2 -130, ALTO_VENTANA //2 +100, 290, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_3_rect = pygame.Rect(ANCHO_VENTANA //2 -130, ALTO_VENTANA //2 +100, 290, 90)  
 
 
             screen.blit(marco, marco_rect)
@@ -359,20 +297,20 @@ def nivel_3():
 
         if player_1.win:
             marco_win = pygame.image.load("images/gui/set_gui_01/Comic/menu/space.jpg")
-            marco_win = pygame.transform.scale(marco_win, (600, 500))  # Ajusta el tamaño de la imagen según sea necesario
+            marco_win = pygame.transform.scale(marco_win, (600, 500))
             marco_rect_win = marco_win.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
 
             text_level_win=pygame.image.load("images/gui/set_gui_01/Large Buttons/win.png")
             text_level_win = pygame.transform.scale(text_level_win, (300, 100))
-            text_win_rect = pygame.Rect(ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -190, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            text_win_rect = pygame.Rect(ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -190, 90, 90)
 
             marco_1_image_win = pygame.image.load("images/gui/set_gui_01/option buttons/Return Square Button.png")
             marco_1_image_win = pygame.transform.scale(marco_1_image_win, (100, 100))
-            marco_1_rect_win = pygame.Rect(ANCHO_VENTANA //2 -250, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_1_rect_win = pygame.Rect(ANCHO_VENTANA //2 -250, ALTO_VENTANA //2 +100, 90, 90) 
 
             marco_2_image_win = pygame.image.load("images/gui/set_gui_01/option buttons/Home Square Button.png")
             marco_2_image_win = pygame.transform.scale(marco_2_image_win, (100, 100))
-            marco_2_rect_win = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_2_rect_win = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90) 
 
             font_score=("fonts/Symtext.ttf")
             font_size = 30
@@ -392,21 +330,21 @@ def nivel_3():
 
         if player_1.game_over:
             marco_lose = pygame.image.load("images/gui/set_gui_01/Comic/menu/space.jpg")
-            marco_lose = pygame.transform.scale(marco_lose, (600, 500))  # Ajusta el tamaño de la imagen según sea necesario
+            marco_lose = pygame.transform.scale(marco_lose, (600, 500))  
             marco_rect_lose = marco_lose.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
 
             text_level_lose=pygame.image.load("images/gui/set_gui_01/Large Buttons/lose.png")
             text_level_lose = pygame.transform.scale(text_level_lose, (300, 100))
-            text_lose_rect = pygame.Rect(ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -190, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            text_lose_rect = pygame.Rect(ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -190, 90, 90)
 
             marco_1_image_lose = pygame.image.load("images/gui/set_gui_01/option buttons/Home Square Button.png")
             marco_1_image_lose = pygame.transform.scale(marco_1_image_lose, (100, 100))
-            marco_1_rect_lose = pygame.Rect(ANCHO_VENTANA //2 -250, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_1_rect_lose = pygame.Rect(ANCHO_VENTANA //2 -250, ALTO_VENTANA //2 +100, 90, 90)
 
 
             marco_2_image_lose = pygame.image.load("images/gui/set_gui_01/option buttons/Return Square Button.png")
             marco_2_image_lose = pygame.transform.scale(marco_2_image_lose, (100, 100))
-            marco_2_rect_lose = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)  # Ajusta las coordenadas y el tamaño según sea necesario
+            marco_2_rect_lose = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90)
 
             font_score=("fonts/Symtext.ttf")
             font_size = 30
