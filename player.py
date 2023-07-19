@@ -194,8 +194,6 @@ class Player:
                     self.jump(False)
                 self.is_fall = False
 
-            
-
     def is_on_plataform(self,plataform_list, plataforma_movil_lista):
         retorno = False
         

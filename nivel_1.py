@@ -402,8 +402,3 @@ def nivel_1():
             screen.blit(score_text, score_rect)
 
         pygame.display.flip()
-
-
-
-
-

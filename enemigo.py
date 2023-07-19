@@ -241,4 +241,3 @@ class Enemy(pygame.sprite.Sprite):
             sonido_colision.play()
 
             enemy_list.remove(self)
-        

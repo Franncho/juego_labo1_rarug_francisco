@@ -76,13 +76,13 @@ def nivel_2():
     
     plataforma_movil_lista=[]
 
-    plataforma_movil_lista.append(PlataformaMovil(400, 500, 100, 50, 50, 0.01, movimiento=0, type=4, start_x=400, end_x=800, start_y=0, end_y=0))
+    plataforma_movil_lista.append(PlataformaMovil(400, 500, 100, 50, 50, velocidad=0.02, movimiento=0, type=4, start_x=400, end_x=800, start_y=0, end_y=0))
 
-    plataforma_movil_lista.append(PlataformaMovil(645, 120, 100, 50, 50, 0.01, movimiento=0, type=13, start_x=645, end_x=1050, start_y=0, end_y=0))
+    plataforma_movil_lista.append(PlataformaMovil(645, 120, 100, 50, 50, velocidad=0.02, movimiento=0, type=13, start_x=645, end_x=1050, start_y=0, end_y=0))
 
-    plataforma_movil_lista.append(PlataformaMovil(150, 120, 100, 50, 50, 0.01, movimiento=0, type=13, start_x=150, end_x=595, start_y=0, end_y=0))
+    plataforma_movil_lista.append(PlataformaMovil(150, 120, 100, 50, 50, velocidad=0.02, movimiento=0, type=13, start_x=150, end_x=595, start_y=0, end_y=0))
 
-    plataforma_movil_lista.append(PlataformaMovil(1100, 120, 90, 50, 50, 0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=120, end_y=450))
+    plataforma_movil_lista.append(PlataformaMovil(1100, 120, 90, 50, 50, velocidad=0.01, movimiento=1, type=13, start_x=0, end_x=0, start_y=120, end_y=450))
 
 
     trampas_json = contenido_json["trampas"]
