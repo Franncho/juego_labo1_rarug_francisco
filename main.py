@@ -55,8 +55,6 @@ def main():
     from nivel_3 import nivel_3
     from history import historia
 
-    global music_playing
-
     running = True
     current_level = 0
 

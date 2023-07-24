@@ -4,6 +4,19 @@ import sys
 from constantes import *
 import json
 
+
+music_playing = True
+
+def toggle_music():
+    global music_playing
+
+    if music_playing:
+        pygame.mixer.music.pause()
+        music_playing = False
+    else:
+        pygame.mixer.music.unpause()
+        music_playing = True
+
 def nivel_2():
 
     from player import Player
@@ -32,19 +45,15 @@ def nivel_2():
     trampa=pygame.sprite.Group()
     enemigos=pygame.sprite.Group()
     enemigo2=pygame.sprite.Group()
-    plataform=pygame.sprite.Group()
     vidas_extras=pygame.sprite.Group()
 
     #Variables varias
     score_timer = 0
-    contador_estrellas=0
     time_limit = 90
     elapsed_time = 0
-    finally_time = 0
 
     with open("nivel_2.json", "r") as archivo:
         contenido_json = json.load(archivo)
-
     
     plataformas_nivel_1 = contenido_json["plataformas"]
 
@@ -60,9 +69,8 @@ def nivel_2():
         nueva_plataforma = Plataform(x, y, width, height, type)
         plataformas.append(nueva_plataforma)
 
-
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras ,trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=2)
+    player_1 = Player(x=0, y=300, speed_walk=12, speed_run=24, gravity=10, jump_power=30, frame_rate_ms=100, move_rate_ms=50, jump_height=100, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras ,trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=2, musica=True)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
@@ -124,6 +132,9 @@ def nivel_2():
                 pygame.mixer.music.play(loops=-1)
             
             if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+
+
                 if marco_1_rect is not None and marco_2_rect is not None and marco_3_rect is not None:
                     if marco_1_rect.collidepoint(event.pos):
                         player_1.pause=False
@@ -146,6 +157,13 @@ def nivel_2():
                     elif marco_2_rect_lose.collidepoint(event.pos):
                         nivel_2()
 
+                if music_button_rect.collidepoint(mouse_pos):
+                    toggle_music()
+                    if music_playing:
+                        music_button_img = music_on_img
+                    else:
+                        music_button_img = music_off_img
+
         keys = pygame.key.get_pressed()
         if not player_1.pause:
             delta_ms = clock.tick(FPS)
@@ -155,8 +173,6 @@ def nivel_2():
         #Declaracion del fondo del juego
         screen.blit(imagen_fondo, (0, 0))
         
-
-
         #Dibujas en pantalla objetos variados
         for plataforma in plataformas:
             plataforma.draw(screen)
@@ -206,7 +222,6 @@ def nivel_2():
                 player_1.invulnerable = False 
 
         if player_1.win or time_limit == 0 or player_1.pause == True or player_1.game_over==True:
-            finally_time = time_limit  
             if time_limit == 0:
                 player_1.game_over = True
         else:
@@ -224,7 +239,6 @@ def nivel_2():
         player_1.objetos_lanzados.update()
         player_1.objetos_lanzados.draw(screen)
         
-
         #Texto en pantalla de vida, puntaje y estrellas recogidas
         font=pygame.font.SysFont("arial", 20, True)
 
@@ -250,31 +264,48 @@ def nivel_2():
 
         if player_1.pause and not player_1.win:
             marco = pygame.image.load("images/gui/set_gui_01/Comic/menu/espacio.jpg")
-            marco = pygame.transform.scale(marco, (600, 500)) 
+            marco = pygame.transform.scale(marco, (600, 500))  
             marco_rect = marco.get_rect(center=(ANCHO_VENTANA // 2, ALTO_VENTANA // 2))
 
             pause_image=pygame.image.load("images/gui/set_gui_01/Large Buttons/Header.png")
-            pause_image=pygame.transform.scale(pause_image, (300, 100)) 
+            pause_image=pygame.transform.scale(pause_image, (300, 100))  
             pause_rect=pygame.Rect((ANCHO_VENTANA //2 -150, ALTO_VENTANA //2 -300, 90, 90))
 
             marco_1_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/Continue Button.png")
             marco_1_image = pygame.transform.scale(marco_1_image, (300, 100))
             marco_1_rect = pygame.Rect(ANCHO_VENTANA //2- 130, ALTO_VENTANA //2 -170, 290, 90)  
+
             marco_2_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/New game Button.png")
             marco_2_image = pygame.transform.scale(marco_2_image, (300, 100))
             marco_2_rect = pygame.Rect(ANCHO_VENTANA //2 - 130, ALTO_VENTANA //2 -40, 290, 90)  
+
             marco_3_image = pygame.image.load("images/gui/set_gui_01/Large Buttons/Menu Button.png")
             marco_3_image = pygame.transform.scale(marco_3_image, (300, 100))
             marco_3_rect = pygame.Rect(ANCHO_VENTANA //2 -130, ALTO_VENTANA //2 +100, 290, 90)  
 
+            font_score=pygame.font.SysFont("comicsans", 20, True)
+            score_text = font_score.render("Score: " + str(player_1.score), True, (255, 255, 255))
+            score_rect = pygame.Rect(ANCHO_VENTANA //2 - 150, ALTO_VENTANA //2 -100, 90, 90)
 
+            music_on_img = pygame.image.load("images/gui/set_gui_01/Comic/Buttons/audioPlus.png")
+            music_off_img = pygame.image.load("images/gui/set_gui_01/Comic/Buttons/audioMute.png")
+
+
+            if music_playing:
+                music_button_img = music_on_img
+            else:
+                music_button_img = music_off_img
+
+            music_button_rect = pygame.Rect(ANCHO_VENTANA // 2 - 250, ALTO_VENTANA // 2 + 100, 90, 90)
+
+            screen.blit(score_text, score_rect)
             screen.blit(marco, marco_rect)
             screen.blit(pause_image, pause_rect)
             screen.blit(marco_1_image, marco_1_rect)
             screen.blit(marco_2_image, marco_2_rect)
             screen.blit(marco_3_image, marco_3_rect)
+            screen.blit(music_button_img, music_button_rect)
         
-
         marco_1_rect_win=None
         marco_2_rect_win=None
         marco_3_rect_win=None
@@ -310,7 +341,7 @@ def nivel_2():
             screen.blit(marco_2_image_win, marco_2_rect_win)
             screen.blit(marco_3_image_win, marco_3_rect_win)
             screen.blit(score_text, score_rect)
-        
+    
         marco_1_rect_lose=None
         marco_2_rect_lose=None
 

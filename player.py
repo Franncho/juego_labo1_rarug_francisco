@@ -10,7 +10,7 @@ from plataforma_movil import *
 
 
 class Player:
-    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, vidas_extra=None, trampas=None, enemigos=None, enemigo_2=None, numero_player=None) -> None:
+    def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100,estrella=None, poderes=None, vidas_extra=None, trampas=None, enemigos=None, enemigo_2=None, numero_player=None, musica=None) -> None:
         
         self.numero_player=numero_player
         self.stay_r = Auxiliar.getSurfaceFromSeparateFiles("images/caracters/players/robot/Idle ({0}).png",1,10,flip=False,scale=p_scale)
@@ -88,6 +88,8 @@ class Player:
         self.invulnerable_duration = 600  # Duración en milisegundos de la invulnerabilidad
 
         self.max_limit=ANCHO_VENTANA
+
+        self.musica=musica
 
     def walk(self,direction):
         if self.is_dead:
@@ -267,10 +269,12 @@ class Player:
                     self.lives -= 1
                     self.score-=2
                     self.heat_state = True
-                    sonido_colision = pygame.mixer.Sound("audio/daño.wav")
-                    volumen = 0.2 
-                    sonido_colision.set_volume(volumen)
-                    sonido_colision.play()
+
+                    if self.musica=="True":
+                        sonido_colision = pygame.mixer.Sound("audio/daño.wav")
+                        volumen = 0.2 
+                        sonido_colision.set_volume(volumen)
+                        sonido_colision.play()
 
         if self.heat_state:
             current_time = pygame.time.get_ticks()
@@ -298,19 +302,21 @@ class Player:
             self.invulnerable = True 
             self.invulnerable_timer = pygame.time.get_ticks() 
 
-            sonido_colision = pygame.mixer.Sound("audio/daño.wav")
-            volumen = 0.2 
-            sonido_colision.set_volume(volumen)
-            sonido_colision.play()
+            if self.musica==True:
+                sonido_colision = pygame.mixer.Sound("audio/daño.wav")
+                volumen = 0.2 
+                sonido_colision.set_volume(volumen)
+                sonido_colision.play()
 
         if self.lives <= 0:
             self.lives = 0
             self.death_animation()
 
-            sonido_colision = pygame.mixer.Sound("audio/dead.wav")
-            volumen = 0.2 
-            sonido_colision.set_volume(volumen)
-            sonido_colision.play()
+            if self.musica==True:
+                sonido_colision = pygame.mixer.Sound("audio/dead.wav")
+                volumen = 0.2 
+                sonido_colision.set_volume(volumen)
+                sonido_colision.play()
             # self.remove(self)
 
     
@@ -329,10 +335,12 @@ class Player:
                     self.score += 10
                     self.contador_estrella+=1
                     print(self.score)
-                    sonido_colision = pygame.mixer.Sound("audio/coin.wav")
-                    volumen = 0.2 
-                    sonido_colision.set_volume(volumen)
-                    sonido_colision.play()
+
+                    if self.musica==True:
+                        sonido_colision = pygame.mixer.Sound("audio/coin.wav")
+                        volumen = 0.2 
+                        sonido_colision.set_volume(volumen)
+                        sonido_colision.play()
 
                 if self.numero_player==1:
                     colisiones_poderes = pygame.sprite.spritecollide(self, self.poderes, True)
@@ -340,10 +348,11 @@ class Player:
                         self.poder_salto_time = pygame.time.get_ticks()
                         self.jump_height += 100
 
-                        sonido_colision = pygame.mixer.Sound("audio/objeto.wav")
-                        volumen = 0.2 
-                        sonido_colision.set_volume(volumen)
-                        sonido_colision.play()
+                        if self.musica==True:
+                            sonido_colision = pygame.mixer.Sound("audio/objeto.wav")
+                            volumen = 0.2 
+                            sonido_colision.set_volume(volumen)
+                            sonido_colision.play()
 
                     current_time = pygame.time.get_ticks()
                     if current_time - self.poder_salto_time >= 3000:
@@ -352,6 +361,7 @@ class Player:
                     if current_time - self.last_power_collected_time >= 5000:  # 5 segundos en milisegundos
                         self.poderes.empty()
                         # Crear nuevo poder
+
                         new_power = Poderes(250, 170, "images/Object/coin/papas.png", scale=2)
                         self.poderes.add(new_power)
                         self.last_power_collected_time = current_time
@@ -361,18 +371,22 @@ class Player:
                     colisiones_vidas = pygame.sprite.spritecollide(self, self.vidas_extra, True)
                     if colisiones_vidas:
                         self.lives += 1
-                        sonido_colision = pygame.mixer.Sound("audio/coin.wav")
-                        volumen = 0.2 
-                        sonido_colision.set_volume(volumen)
-                        sonido_colision.play()
+
+                        if self.musica==True:
+                            sonido_colision = pygame.mixer.Sound("audio/coin.wav")
+                            volumen = 0.2 
+                            sonido_colision.set_volume(volumen)
+                            sonido_colision.play()
 
 
                 if self.lives==0:
                     self.death_animation()
-                    sonido_colision = pygame.mixer.Sound("audio/dead.wav")
-                    volumen = 0.2 
-                    sonido_colision.set_volume(volumen)
-                    sonido_colision.play()
+
+                    if self.musica==True:
+                        sonido_colision = pygame.mixer.Sound("audio/dead.wav")
+                        volumen = 0.2 
+                        sonido_colision.set_volume(volumen)
+                        sonido_colision.play()
 
                 for objeto in self.objetos_lanzados:
                     colisiones_enemigos = pygame.sprite.spritecollide(objeto, self.enemigos, False)
@@ -416,10 +430,11 @@ class Player:
                             self.rect.move_ip(push_force)
                             self.ground_collition_rect.move_ip(push_force)
 
-                            sonido_colision = pygame.mixer.Sound("audio/daño.wav")
-                            volumen = 0.2 
-                            sonido_colision.set_volume(volumen)
-                            sonido_colision.play()
+                            if self.musica==True:
+                                sonido_colision = pygame.mixer.Sound("audio/daño.wav")
+                                volumen = 0.2 
+                                sonido_colision.set_volume(volumen)
+                                sonido_colision.play()
                 
                 collision_enemy_2 = pygame.sprite.spritecollide(self, self.enemigo_2, False)
                 if collision_enemy_2:
@@ -433,10 +448,11 @@ class Player:
                         self.rect.move_ip(push_force)
                         self.ground_collition_rect.move_ip(push_force)
 
-                        sonido_colision = pygame.mixer.Sound("audio/daño.wav")
-                        volumen = 0.2 
-                        sonido_colision.set_volume(volumen)
-                        sonido_colision.play()
+                        if self.musica==True:
+                            sonido_colision = pygame.mixer.Sound("audio/daño.wav")
+                            volumen = 0.2 
+                            sonido_colision.set_volume(volumen)
+                            sonido_colision.play()
 
                 self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
                 self.mask = pygame.mask.from_surface(self.image)
@@ -456,10 +472,11 @@ class Player:
             self.win=True
             self.pause=True
 
-            sonido_colision = pygame.mixer.Sound("audio/win.wav")
-            volumen = 0.2 
-            sonido_colision.set_volume(volumen)
-            sonido_colision.play()
+            if self.musica==True:
+                sonido_colision = pygame.mixer.Sound("audio/win.wav")
+                volumen = 0.2 
+                sonido_colision.set_volume(volumen)
+                sonido_colision.play()
 
     def events(self,delta_ms,keys): 
         self.tiempo_transcurrido += delta_ms
@@ -480,10 +497,11 @@ class Player:
                 self.jump(True)
                 self.tiempo_last_jump = self.tiempo_transcurrido
 
-                sonido_colision = pygame.mixer.Sound("audio/jump.wav")
-                volumen = 0.2 
-                sonido_colision.set_volume(volumen)
-                sonido_colision.play()
+                if self.musica==True:
+                    sonido_colision = pygame.mixer.Sound("audio/jump.wav")
+                    volumen = 0.2 
+                    sonido_colision.set_volume(volumen)
+                    sonido_colision.play()
 
         if(not keys[pygame.K_x] and not self.pause):
             self.shoot(False)  
@@ -493,10 +511,11 @@ class Player:
             self.lanzar_objeto()
             self.attack_launched = True
 
-            sonido_colision = pygame.mixer.Sound("audio/disparo.wav")
-            volumen = 0.2 
-            sonido_colision.set_volume(volumen)
-            sonido_colision.play()
+            if self.musica==True:
+                sonido_colision = pygame.mixer.Sound("audio/disparo.wav")
+                volumen = 0.2 
+                sonido_colision.set_volume(volumen)
+                sonido_colision.play()
         
         if(keys[pygame.K_ESCAPE]):
             self.pause=True

@@ -4,6 +4,19 @@ import sys
 from constantes import *
 import json
 
+
+music_playing = True
+
+def toggle_music():
+    global music_playing
+
+    if music_playing:
+        pygame.mixer.music.pause()
+        music_playing = False
+    else:
+        pygame.mixer.music.unpause()
+        music_playing = True
+
 def nivel_1():
 
     from player import Player
@@ -30,7 +43,6 @@ def nivel_1():
     trampa=pygame.sprite.Group()
     enemigos=pygame.sprite.Group()
     enemigo2=pygame.sprite.Group()
-    plataform=pygame.sprite.Group()
     vidas_extras=pygame.sprite.Group()
 
     pygame.init()
@@ -38,10 +50,8 @@ def nivel_1():
 
     #Variables varias
     score_timer = 0
-    contador_estrellas=0
     time_limit = 60
     elapsed_time = 0
-    finally_time = 0
     
     with open("nivel_1.json", "r") as archivo:
         contenido_json = json.load(archivo)
@@ -65,7 +75,7 @@ def nivel_1():
         plataformas.append(nueva_plataforma)
 
     #Inicializar el personaje 1 con sus atributos correspondientes
-    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=1)
+    player_1 = Player(x=0, y=500, speed_walk=12, speed_run=24, gravity=10, jump_power=50, frame_rate_ms=100, move_rate_ms=50, jump_height=110, p_scale=0.2, interval_time_jump=300, estrella=estrella, poderes=poder, vidas_extra=vidas_extras, trampas=trampa, enemigos=enemigos, enemigo_2=enemigo2, numero_player=1, musica=True)
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
@@ -112,6 +122,7 @@ def nivel_1():
                 pygame.mixer.music.play(loops=-1)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
                 
                 if marco_1_rect is not None and marco_2_rect is not None and marco_3_rect is not None:
                     if marco_1_rect.collidepoint(event.pos):
@@ -134,7 +145,13 @@ def nivel_1():
                         main()
                     elif marco_2_rect_lose.collidepoint(event.pos):
                         nivel_1()
-
+                
+                if music_button_rect.collidepoint(mouse_pos):
+                    toggle_music()
+                    if music_playing:
+                        music_button_img = music_on_img
+                    else:
+                        music_button_img = music_off_img
 
         keys = pygame.key.get_pressed()
         delta_ms = clock.tick(FPS)
@@ -164,7 +181,6 @@ def nivel_1():
                     enemy_2.objetos_lanzados.update()
             enemy_2.objetos_lanzados.draw(screen)
             
-
         for pinches in trampas_list:
             pinches.draw(screen)
 
@@ -191,7 +207,6 @@ def nivel_1():
                 player_1.invulnerable = False  
 
         if player_1.win or time_limit == 0 or player_1.pause == True or player_1.game_over==True:
-            finally_time = time_limit  
             if time_limit == 0:
                 player_1.game_over = True
         else:
@@ -209,7 +224,6 @@ def nivel_1():
         player_1.objetos_lanzados.update()
         player_1.objetos_lanzados.draw(screen)
 
-
         #Texto en pantalla de vida, puntaje y estrellas recogidas
         font=pygame.font.SysFont("arial", 20, True)
 
@@ -223,7 +237,6 @@ def nivel_1():
         stars_text = font.render("Stars:", True, (255, 255, 255))
         screen.blit(stars_text, (300, 5))
 
-
         font_path = "fonts/LLPIXEL3.ttf"
         font_size = 20
         font_timer = pygame.font.Font(font_path, font_size) 
@@ -233,6 +246,7 @@ def nivel_1():
         marco_1_rect=None
         marco_2_rect=None
         marco_3_rect=None
+
 
         if player_1.pause and not player_1.win:
             marco = pygame.image.load("images/gui/set_gui_01/Comic/menu/espacio.jpg")
@@ -259,14 +273,25 @@ def nivel_1():
             score_text = font_score.render("Score: " + str(player_1.score), True, (255, 255, 255))
             score_rect = pygame.Rect(ANCHO_VENTANA //2 - 150, ALTO_VENTANA //2 -100, 90, 90)
 
+            music_on_img = pygame.image.load("images/gui/set_gui_01/Comic/Buttons/audioPlus.png")
+            music_off_img = pygame.image.load("images/gui/set_gui_01/Comic/Buttons/audioMute.png")
+
+
+            if music_playing:
+                music_button_img = music_on_img
+            else:
+                music_button_img = music_off_img
+
+            music_button_rect = pygame.Rect(ANCHO_VENTANA // 2 - 250, ALTO_VENTANA // 2 + 100, 90, 90)
+
             screen.blit(score_text, score_rect)
             screen.blit(marco, marco_rect)
             screen.blit(pause_image, pause_rect)
             screen.blit(marco_1_image, marco_1_rect)
             screen.blit(marco_2_image, marco_2_rect)
             screen.blit(marco_3_image, marco_3_rect)
+            screen.blit(music_button_img, music_button_rect)
         
-
         marco_1_rect_win=None
         marco_2_rect_win=None
         marco_3_rect_win=None
@@ -288,7 +313,6 @@ def nivel_1():
             marco_2_image_win = pygame.transform.scale(marco_2_image_win, (100, 100))
             marco_2_rect_win = pygame.Rect(ANCHO_VENTANA //2 - 40, ALTO_VENTANA //2 +100, 90, 90) 
 
-
             marco_3_image_win = pygame.image.load("images/gui/set_gui_01/option buttons/Next Square Button.png")
             marco_3_image_win = pygame.transform.scale(marco_3_image_win, (100, 100))
             marco_3_rect_win = pygame.Rect(ANCHO_VENTANA //2 +150, ALTO_VENTANA //2 +100, 90, 90) 
@@ -306,7 +330,6 @@ def nivel_1():
             screen.blit(marco_2_image_win, marco_2_rect_win)
             screen.blit(marco_3_image_win, marco_3_rect_win)
             screen.blit(score_text, score_rect)
-
         
         marco_1_rect_lose=None
         marco_2_rect_lose=None
@@ -323,7 +346,6 @@ def nivel_1():
             marco_1_image_lose = pygame.image.load("images/gui/set_gui_01/option buttons/Home Square Button.png")
             marco_1_image_lose = pygame.transform.scale(marco_1_image_lose, (100, 100))
             marco_1_rect_lose = pygame.Rect(ANCHO_VENTANA //2 -250, ALTO_VENTANA //2 +100, 90, 90) 
-
 
             marco_2_image_lose = pygame.image.load("images/gui/set_gui_01/option buttons/Return Square Button.png")
             marco_2_image_lose = pygame.transform.scale(marco_2_image_lose, (100, 100))

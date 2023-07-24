@@ -41,7 +41,6 @@ class Enemy(pygame.sprite.Sprite):
             self.dead_r=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/05_demon_death/{0}.png",0,21,scale=p_scale)
             self.dead_l=Auxiliar.getSurfaceFromSeparateFiles("images/caracters/enemies/boss/05_demon_death/{0}.png",0,21,flip=True,scale=p_scale)
 
-
         self.contador = 0
         self.frame = 0
 
@@ -51,7 +50,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.numero_enemy==4:
             self.lives=6
         
-
         self.score = 0
         self.move_x = 0
         self.move_y = 0
@@ -86,7 +84,6 @@ class Enemy(pygame.sprite.Sprite):
 
         if self.numero_enemy==4:
             self.attack_cooldown = 3000
-
 
         self.last_attack_time = pygame.time.get_ticks()
 
