@@ -5,7 +5,7 @@ from constantes import *
 from auxiliar import Auxiliar
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100, numero_enemy=None) -> None:
+    def __init__(self, x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,move_rate_ms,jump_height,p_scale=1,interval_time_jump=100, numero_enemy=None, musica=None) -> None:
         super().__init__()
         self.numero_enemy=numero_enemy
 
@@ -100,6 +100,8 @@ class Enemy(pygame.sprite.Sprite):
         self.is_dead = False
         self.is_visible = True
         self.death_animation_finished = False
+
+        self.musica=musica
 
     def change_x(self,delta_x):
         self.rect.x += delta_x
@@ -197,11 +199,11 @@ class Enemy(pygame.sprite.Sprite):
             if self.puede_atacar():
                 self.lanzar_disparo()
                 self.last_attack_time = pygame.time.get_ticks()
-
-                sonido_colision = pygame.mixer.Sound("audio/shoot_enemy.wav")
-                volumen = 0.2 
-                sonido_colision.set_volume(volumen)
-                sonido_colision.play()
+                if self.musica==True:
+                    sonido_colision = pygame.mixer.Sound("audio/shoot_enemy.wav")
+                    volumen = 0.2 
+                    sonido_colision.set_volume(volumen)
+                    sonido_colision.play()
 
     def update(self,delta_ms,plataform_list, enemy_list, index, pause):
         if not pause:
@@ -227,14 +229,16 @@ class Enemy(pygame.sprite.Sprite):
             self.lives = 0
             self.death_animation()
             if self.numero_enemy==4:
-                sonido_colision = pygame.mixer.Sound("audio/demon_dead.mp3")
+                if self.musica==True:
+                    sonido_colision = pygame.mixer.Sound("audio/demon_dead.mp3")
+                    volumen = 0.2 
+                    sonido_colision.set_volume(volumen)
+                    sonido_colision.play()
+
+            if self.musica==True:
+                sonido_colision = pygame.mixer.Sound("audio/dead_enemy.mp3")
                 volumen = 0.2 
                 sonido_colision.set_volume(volumen)
                 sonido_colision.play()
-
-            sonido_colision = pygame.mixer.Sound("audio/dead_enemy.mp3")
-            volumen = 0.2 
-            sonido_colision.set_volume(volumen)
-            sonido_colision.play()
 
             enemy_list.remove(self)

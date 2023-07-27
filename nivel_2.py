@@ -7,16 +7,6 @@ import json
 
 music_playing = True
 
-def toggle_music():
-    global music_playing
-
-    if music_playing:
-        pygame.mixer.music.pause()
-        music_playing = False
-    else:
-        pygame.mixer.music.unpause()
-        music_playing = True
-
 def nivel_2():
 
     from player import Player
@@ -28,6 +18,18 @@ def nivel_2():
     from poderes import Poderes
     from main import main
     from nivel_3 import nivel_3
+
+    def toggle_music():
+        global music_playing
+
+        if music_playing:
+            pygame.mixer.music.pause()
+            music_playing = False
+            player_1.musica=False
+        else:
+            pygame.mixer.music.unpause()
+            music_playing = True
+            player_1.musica=True
 
     flags = DOUBLEBUF
 
@@ -74,8 +76,8 @@ def nivel_2():
 
     #Inicializar los enemigos con sus atributos correspondientes
     enemy_list=[]
-    enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=2))
-    enemy_list.append(Enemy(x=1100, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=2))
+    enemy_list.append(Enemy(x=300, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=2, musica=True))
+    enemy_list.append(Enemy(x=1100, y=330, speed_walk=6, speed_run=8, gravity=4, frame_rate_ms=50, move_rate_ms=50, jump_power=30, jump_height=140, p_scale=0.08, numero_enemy=2, musica=True))
     enemigos.add(enemy_list)
 
     enemy_list_2=[]
