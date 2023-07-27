@@ -15,7 +15,7 @@ Chano : juego de un robot hecho en 2d
 
 ### `Instalacion`
 
-Descarga el repositorio y ejecuta el archivo Main.py que se encuentra entre los archivos del juego
+Descarga el repositorio y ejecuta el archivo ejecutable Main.exe que se encuentra entre los archivos del juego
 
 ### `Como jugar`
 
